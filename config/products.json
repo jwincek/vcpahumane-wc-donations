@@ -1,0 +1,197 @@
+{
+  "products": {
+    "shelter-donations": {
+      "ability": "shelter-donations/create",
+      "product_type": "donation",
+      "description": "General shelter donations",
+      "input_mapping": {
+        "allocation": {
+          "source": "attribute",
+          "key": "preferred-allocation",
+          "transform": "normalize_allocation",
+          "default": "general-fund"
+        },
+        "dedication": {
+          "source": "order_meta",
+          "key": "_sd_dedication"
+        },
+        "is_anonymous": {
+          "source": "order_meta",
+          "key": "_sd_is_anonymous",
+          "transform": "boolean",
+          "default": false
+        },
+        "campaign_id": {
+          "source": "order_meta",
+          "key": "_sd_campaign_id"
+        }
+      }
+    },
+
+    "shelter-memberships": {
+      "ability": "shelter-memberships/create",
+      "product_type": "membership",
+      "description": "Individual shelter memberships",
+      "input_mapping": {
+        "tier": {
+          "source": "attribute",
+          "key": "membership-level",
+          "transform": "normalize_tier"
+        },
+        "membership_type": {
+          "source": "static",
+          "value": "individual"
+        },
+        "is_anonymous": {
+          "source": "order_meta",
+          "key": "_sd_is_anonymous",
+          "transform": "boolean",
+          "default": false
+        }
+      }
+    },
+
+    "shelter-memberships-business": {
+      "ability": "shelter-memberships/create",
+      "product_type": "membership",
+      "description": "Business shelter memberships",
+      "input_mapping": {
+        "tier": {
+          "source": "attribute",
+          "key": "membership-level",
+          "transform": "normalize_tier"
+        },
+        "membership_type": {
+          "source": "static",
+          "value": "business"
+        },
+        "business_name": {
+          "source": "order_meta",
+          "key": "_sd_business_name",
+          "fallback": {
+            "source": "order_field",
+            "key": "billing_company"
+          }
+        }
+      }
+    },
+
+    "shelter-donations-in-memoriam": {
+      "ability": "shelter-memorials/create",
+      "product_type": "memorial",
+      "description": "In memoriam donations",
+      "input_mapping": {
+        "memorial_type": {
+          "source": "attribute",
+          "key": "in-memoriam-type",
+          "transform": "lowercase"
+        },
+        "honoree_name": {
+          "source": "order_meta",
+          "key": "_sd_honoree_name"
+        },
+        "tribute_message": {
+          "source": "order_meta",
+          "key": "_sd_tribute_message"
+        },
+        "pet_species": {
+          "source": "order_meta",
+          "key": "_sd_pet_species"
+        },
+        "is_anonymous": {
+          "source": "order_meta",
+          "key": "_sd_is_anonymous",
+          "transform": "boolean",
+          "default": false
+        },
+        "notify_family": {
+          "source": "composite",
+          "fields": {
+            "enabled": {
+              "source": "order_meta",
+              "key": "_sd_notify_family",
+              "transform": "boolean",
+              "default": false
+            },
+            "name": {
+              "source": "order_meta",
+              "key": "_sd_family_name"
+            },
+            "email": {
+              "source": "order_meta",
+              "key": "_sd_family_email"
+            },
+            "address": {
+              "source": "order_meta",
+              "key": "_sd_family_address"
+            },
+            "send_card": {
+              "source": "order_meta",
+              "key": "_sd_send_card",
+              "transform": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+
+    "memberships": {
+      "ability": "shelter-memberships/create",
+      "product_type": "membership",
+      "description": "Legacy membership product (pre-existing SKU)",
+      "legacy": true,
+      "input_mapping": {
+        "tier": {
+          "source": "attribute",
+          "key": "membership-level",
+          "transform": "normalize_tier"
+        },
+        "membership_type": {
+          "source": "static",
+          "value": "individual"
+        }
+      }
+    }
+  },
+
+  "legacy_products": {
+    "memberships": {
+      "product_ids": [5465, 5466, 5467, 5468, 5469, 5470, 5471, 5472, 5473],
+      "maps_to": "shelter-memberships",
+      "attribute_key": "membership-level",
+      "description": "Legacy memberships (individual)"
+    }
+  },
+
+  "sku_attribute_mapping": {
+    "shelter-donations": "preferred-allocation",
+    "shelter-memberships": "membership-level",
+    "shelter-memberships-business": "membership-level",
+    "shelter-donations-in-memoriam": "in-memoriam-type",
+    "memberships": "membership-level"
+  },
+
+  "checkout_field_sets": {
+    "donation": {
+      "fields": ["dedication", "is_anonymous", "campaign_id"]
+    },
+    "membership": {
+      "fields": ["is_anonymous"],
+      "business_fields": ["business_name"]
+    },
+    "memorial": {
+      "fields": [
+        "honoree_name",
+        "tribute_message",
+        "pet_species",
+        "is_anonymous",
+        "notify_family",
+        "family_name",
+        "family_email",
+        "family_address",
+        "send_card"
+      ]
+    }
+  }
+}

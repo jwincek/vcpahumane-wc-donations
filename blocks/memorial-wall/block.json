@@ -1,0 +1,131 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/memorial-wall",
+    "version": "2.1.0",
+    "title": "Memorial Wall",
+    "category": "starter-shelter",
+    "icon": "heart",
+    "description": "Display a searchable, filterable grid of memorial tributes with client-side navigation.",
+    "keywords": [ "memorial", "tribute", "honor", "memory", "donation", "wall", "gallery" ],
+    "textdomain": "starter-shelter",
+    "supports": {
+        "html": false,
+        "align": [ "wide", "full" ],
+        "color": {
+            "background": true,
+            "text": true,
+            "gradients": true,
+            "link": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true,
+            "blockGap": true
+        },
+        "typography": {
+            "fontSize": true,
+            "lineHeight": true,
+            "fontFamily": true,
+            "__experimentalFontStyle": true,
+            "__experimentalFontWeight": true,
+            "__experimentalLetterSpacing": true
+        },
+        "interactivity": {
+            "clientNavigation": true
+        },
+        "__experimentalBorder": {
+            "radius": true,
+            "width": true,
+            "color": true,
+            "style": true
+        }
+    },
+    "usesContext": [ "postId", "postType" ],
+    "attributes": {
+        "archiveId": {
+            "type": "string",
+            "default": ""
+        },
+        "columns": {
+            "type": "integer",
+            "default": 3
+        },
+        "perPage": {
+            "type": "integer",
+            "default": 12
+        },
+        "showSearch": {
+            "type": "boolean",
+            "default": true
+        },
+        "showFilters": {
+            "type": "boolean",
+            "default": true
+        },
+        "showPagination": {
+            "type": "boolean",
+            "default": true
+        },
+        "showYearFilter": {
+            "type": "boolean",
+            "default": true
+        },
+        "defaultType": {
+            "type": "string",
+            "default": "all",
+            "enum": [ "all", "person", "pet" ]
+        },
+        "paginationStyle": {
+            "type": "string",
+            "default": "paged",
+            "enum": [ "paged", "load-more" ]
+        },
+        "layout": {
+            "type": "string",
+            "default": "list",
+            "enum": [ "grid", "masonry", "list" ]
+        },
+        "cardStyle": {
+            "type": "string",
+            "default": "elevated",
+            "enum": [ "elevated", "flat", "bordered" ]
+        },
+        "showDonorName": {
+            "type": "boolean",
+            "default": true
+        },
+        "showDate": {
+            "type": "boolean",
+            "default": true
+        },
+        "showImage": {
+            "type": "boolean",
+            "default": false
+        },
+        "truncateTribute": {
+            "type": "integer",
+            "default": 100
+        },
+        "emptyMessage": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "example": {
+        "attributes": {
+            "columns": 3,
+            "perPage": 6,
+            "showSearch": true,
+            "showFilters": true,
+            "layout": "list"
+        }
+    },
+    "selectors": {
+        "root": ".sd-memorial-wall"
+    },
+    "viewScriptModule": "file:./view.js",
+    "editorScript": "file:./edit.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

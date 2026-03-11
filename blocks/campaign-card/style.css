@@ -1,0 +1,215 @@
+/**
+ * Campaign Card Block Styles
+ *
+ * @package Starter_Shelter
+ * @since 1.0.0
+ */
+
+.sd-campaign-card {
+    --sd-progress-color: #059669;
+    --sd-progress-bg: #e5e7eb;
+    --sd-card-bg: #fff;
+    --sd-card-border: #e5e7eb;
+    --sd-card-radius: 12px;
+    --sd-text-muted: #6b7280;
+    
+    padding: 1.5rem;
+    background: var(--sd-card-bg);
+    border: 1px solid var(--sd-card-border);
+    border-radius: var(--sd-card-radius);
+    max-width: 400px;
+}
+
+/* Header */
+.sd-campaign-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.sd-campaign-name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1f2937;
+}
+
+.sd-campaign-badge {
+    flex-shrink: 0;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+.sd-campaign-ended {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* Description */
+.sd-campaign-description {
+    margin: 0 0 1rem;
+    font-size: 0.9375rem;
+    color: var(--sd-text-muted);
+    line-height: 1.5;
+}
+
+/* Progress Bar */
+.sd-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.sd-progress-bar {
+    flex: 1;
+    height: 0.75rem;
+    background: var(--sd-progress-bg);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.sd-progress-fill {
+    height: 100%;
+    background: var(--sd-progress-color);
+    border-radius: inherit;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sd-progress-text {
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--sd-progress-color);
+    min-width: 3rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Stats Grid */
+.sd-campaign-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--sd-card-border);
+    border-bottom: 1px solid var(--sd-card-border);
+}
+
+.sd-campaign-stat {
+    text-align: center;
+}
+
+.sd-campaign-stat .sd-stat-value {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.sd-campaign-stat .sd-stat-label {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--sd-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+/* Stat variants */
+.sd-stat-raised .sd-stat-value {
+    color: var(--sd-progress-color);
+}
+
+/* Action */
+.sd-campaign-action {
+    margin-top: 1rem;
+}
+
+.sd-donate-button {
+    display: block;
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    background: var(--sd-progress-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.sd-donate-button:hover {
+    background: color-mix(in srgb, var(--sd-progress-color), #000 10%);
+}
+
+.sd-donate-button:active {
+    transform: scale(0.98);
+}
+
+/* Ended state */
+.sd-campaign-card.is-ended {
+    opacity: 0.8;
+}
+
+.sd-campaign-card.is-ended .sd-progress-fill {
+    background: #9ca3af;
+}
+
+/* Empty state */
+.sd-campaign-card--empty {
+    text-align: center;
+    color: var(--sd-text-muted);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .sd-campaign-card {
+        --sd-card-bg: #1f2937;
+        --sd-card-border: #374151;
+        --sd-progress-bg: #374151;
+        --sd-text-muted: #9ca3af;
+    }
+    
+    .sd-campaign-name,
+    .sd-campaign-stat .sd-stat-value {
+        color: #f9fafb;
+    }
+}
+
+/* Alignment */
+.sd-campaign-card.aligncenter {
+    margin-inline: auto;
+}
+
+.sd-campaign-card.alignwide,
+.sd-campaign-card.alignfull {
+    max-width: none;
+}
+
+.sd-campaign-card.alignwide {
+    max-width: var(--wp--style--global--wide-size, 1200px);
+    margin-inline: auto;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .sd-campaign-card {
+        padding: 1rem;
+    }
+    
+    .sd-campaign-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,211 @@
+{
+  "emails": {
+    "donation-receipt": {
+      "title": "Donation Receipt",
+      "description": "Sent to donors after a successful donation",
+      "trigger_hook": "starter_shelter_donation_created",
+      "trigger_args": ["donation_id", "donor_id", "input"],
+      "entities": {
+        "donation": {
+          "entity": "sd_donation",
+          "id_from": "donation_id"
+        },
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "recipient_type": "donor",
+      "subject": "Thank you for your donation to {site_name}!",
+      "heading": "Thank You for Your Generosity!",
+      "template": "emails/donation-receipt.php",
+      "placeholders": {
+        "donor_name": "donor.full_name",
+        "amount": "donation.amount_formatted",
+        "allocation": "donation.allocation_label",
+        "date": "donation.date_formatted"
+      }
+    },
+
+    "membership-welcome": {
+      "title": "Membership Welcome",
+      "description": "Sent to new members after joining",
+      "trigger_hook": "starter_shelter_membership_created",
+      "trigger_args": ["membership_id", "donor_id", "input"],
+      "entities": {
+        "membership": {
+          "entity": "sd_membership",
+          "id_from": "membership_id"
+        },
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "recipient_type": "donor",
+      "subject": "Welcome to the {site_name} family!",
+      "heading": "Welcome, New Member!",
+      "template": "emails/membership-welcome.php",
+      "placeholders": {
+        "donor_name": "donor.full_name",
+        "tier": "membership.tier_label",
+        "expiry_date": "membership.end_date"
+      }
+    },
+
+    "membership-renewal": {
+      "title": "Membership Renewal Reminder",
+      "description": "Sent when membership is expiring soon",
+      "trigger_hook": "starter_shelter_membership_expiring",
+      "trigger_args": ["membership_id", "donor_id"],
+      "entities": {
+        "membership": {
+          "entity": "sd_membership",
+          "id_from": "membership_id"
+        },
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "recipient_type": "donor",
+      "subject": "Your {site_name} membership expires soon",
+      "heading": "Time to Renew Your Membership",
+      "template": "emails/membership-renewal.php",
+      "placeholders": {
+        "donor_name": "donor.full_name",
+        "tier": "membership.tier_label",
+        "expiry_date": "membership.end_date",
+        "days_remaining": "membership.days_remaining"
+      }
+    },
+
+    "memorial-confirmation": {
+      "title": "Memorial Donation Confirmation",
+      "description": "Sent to donors after creating a memorial",
+      "trigger_hook": "starter_shelter_memorial_created",
+      "trigger_args": ["memorial_id", "donor_id"],
+      "entities": {
+        "memorial": {
+          "entity": "sd_memorial",
+          "id_from": "memorial_id"
+        },
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "recipient_type": "donor",
+      "subject": "Your memorial for {honoree_name} has been created",
+      "heading": "Memorial Created",
+      "template": "emails/memorial-confirmation.php",
+      "placeholders": {
+        "donor_name": "donor.full_name",
+        "honoree_name": "memorial.honoree_name",
+        "amount": "memorial.amount_formatted"
+      }
+    },
+
+    "memorial-family-notification": {
+      "title": "Memorial Family Notification",
+      "description": "Sent to family members when a memorial is created in honor of their loved one",
+      "trigger_hook": "starter_shelter_memorial_created",
+      "trigger_args": ["memorial_id", "donor_id"],
+      "entities": {
+        "memorial": {
+          "entity": "sd_memorial",
+          "id_from": "memorial_id"
+        },
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "condition": "memorial.notify_family.enabled",
+      "recipient_type": "custom",
+      "recipient_field": "memorial.notify_family.email",
+      "subject": "A donation has been made in memory of {honoree_name}",
+      "heading": "A Special Tribute",
+      "template": "emails/memorial-family-notification.php",
+      "placeholders": {
+        "honoree_name": "memorial.honoree_name",
+        "donor_name": "donor.full_name",
+        "tribute_message": "memorial.tribute_message"
+      }
+    },
+
+    "donor-annual-summary": {
+      "title": "Annual Giving Summary",
+      "description": "Annual summary of donations for tax purposes",
+      "trigger_hook": "starter_shelter_annual_summary",
+      "trigger_args": ["donor_id", "year", "summary"],
+      "entities": {
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "recipient_type": "donor",
+      "subject": "Your {year} Giving Summary from {site_name}",
+      "heading": "Annual Giving Summary",
+      "template": "emails/donor-annual-summary.php",
+      "placeholders": {
+        "donor_name": "donor.full_name",
+        "year": "args.year",
+        "total_donations": "args.summary.total_formatted",
+        "donation_count": "args.summary.count"
+      }
+    },
+
+    "logo-approved": {
+      "title": "Business Logo Approved",
+      "description": "Sent when a business membership logo is approved",
+      "trigger_hook": "starter_shelter_logo_approved",
+      "trigger_args": ["membership_id", "donor_id"],
+      "entities": {
+        "membership": {
+          "entity": "sd_membership",
+          "id_from": "membership_id"
+        },
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "recipient_type": "donor",
+      "subject": "Your business logo has been approved - {site_name}",
+      "heading": "Logo Approved!",
+      "template": "emails/logo-approved.php",
+      "placeholders": {
+        "donor_name": "donor.full_name",
+        "business_name": "membership.business_name"
+      }
+    },
+
+    "logo-rejected": {
+      "title": "Business Logo Rejected",
+      "description": "Sent when a business membership logo is rejected",
+      "trigger_hook": "starter_shelter_logo_rejected",
+      "trigger_args": ["membership_id", "donor_id", "reason"],
+      "entities": {
+        "membership": {
+          "entity": "sd_membership",
+          "id_from": "membership_id"
+        },
+        "donor": {
+          "entity": "sd_donor",
+          "id_from": "donor_id"
+        }
+      },
+      "recipient_type": "donor",
+      "subject": "Action required: Your business logo needs attention - {site_name}",
+      "heading": "Logo Update Required",
+      "template": "emails/logo-rejected.php",
+      "placeholders": {
+        "donor_name": "donor.full_name",
+        "business_name": "membership.business_name",
+        "rejection_reason": "args.reason"
+      }
+    }
+  }
+}

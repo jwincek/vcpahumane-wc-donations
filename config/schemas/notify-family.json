@@ -1,0 +1,32 @@
+{
+  "$id": "notify-family",
+  "type": "object",
+  "description": "Schema for family notification settings on memorials",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to send notification to family"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Name of family member to notify"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address for notification"
+    },
+    "address": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Mailing address for physical card notification"
+    },
+    "send_card": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to send a physical card"
+    }
+  }
+}

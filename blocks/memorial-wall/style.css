@@ -1,0 +1,859 @@
+/**
+ * Memorial Wall Block Styles
+ *
+ * Class names aligned with render.php v2.1.0.
+ * Uses CSS custom properties for theme integration.
+ *
+ * @package Starter_Shelter
+ * @since   2.1.0
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────── */
+
+.sd-memorial-wall {
+    --sd-columns: 3;
+    position: relative;
+    width: 100%;
+}
+
+/* Editor-chosen column counts via data attribute.
+ * Media queries below override these at narrower viewports.
+ * Using data attributes avoids inline style specificity conflicts. */
+.sd-memorial-wall[data-sd-columns="1"] { --sd-columns: 1; }
+.sd-memorial-wall[data-sd-columns="2"] { --sd-columns: 2; }
+.sd-memorial-wall[data-sd-columns="3"] { --sd-columns: 3; }
+.sd-memorial-wall[data-sd-columns="4"] { --sd-columns: 4; }
+.sd-memorial-wall[data-sd-columns="5"] { --sd-columns: 5; }
+.sd-memorial-wall[data-sd-columns="6"] { --sd-columns: 6; }
+
+/* ─── Controls (search + filters bar) ──────────────────────────────── */
+
+.sd-memorial-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--wp--preset--color--contrast-3, #e0e0e0);
+    align-items: center;
+}
+
+/* Search */
+
+.sd-search-box {
+    flex: 1 1 200px;
+    position: relative;
+}
+
+.sd-search-input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1rem;
+    border: 1px solid var(--wp--preset--color--contrast-3, #ccc);
+    border-radius: 4px;
+    font-size: 1rem;
+    background: var(--wp--preset--color--base, #fff);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    /* Reset mobile browser styling */
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    line-height: normal;
+}
+
+.sd-search-input:focus {
+    outline: none;
+    border-color: var(--wp--preset--color--primary, #0073aa);
+    box-shadow: 0 0 0 1px var(--wp--preset--color--primary, #0073aa);
+}
+
+/* Remove WebKit search cancel button that conflicts with padding */
+.sd-search-input::-webkit-search-cancel-button,
+.sd-search-input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.sd-search-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--wp--preset--color--primary, #0073aa);
+    border: 1px solid var(--wp--preset--color--primary, #0073aa);
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    padding: 0;
+}
+
+.sd-search-button svg {
+    width: 18px;
+    height: 18px;
+    color: #fff;
+}
+
+.sd-search-button:hover {
+    background: var(--wp--preset--color--primary-dark, #005a87);
+    border-color: var(--wp--preset--color--primary-dark, #005a87);
+}
+
+/* Filters */
+
+.sd-filters {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.sd-filter-select {
+    padding: 0.75rem 2rem 0.75rem 1rem;
+    border: 1px solid var(--wp--preset--color--contrast-3, #ccc);
+    border-radius: 4px;
+    background: var(--wp--preset--color--base, #fff);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.sd-filter-select:focus {
+    outline: none;
+    border-color: var(--wp--preset--color--primary, #0073aa);
+    box-shadow: 0 0 0 1px var(--wp--preset--color--primary, #0073aa);
+}
+
+.sd-clear-filters {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--wp--preset--color--contrast-3, #ccc);
+    border-radius: 4px;
+    background: transparent;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--wp--preset--color--contrast-2, #666);
+    transition: background-color 0.2s, color 0.2s, visibility 0s, opacity 0.2s;
+    white-space: nowrap;
+}
+
+.sd-clear-filters--hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sd-clear-filters:hover {
+    background: var(--wp--preset--color--contrast-4, #f0f0f0);
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+/* ─── Results count ────────────────────────────────────────────────── */
+
+.sd-memorial-count {
+    font-size: 0.9em;
+    color: var(--wp--preset--color--contrast-2, #666);
+    margin-bottom: 1rem;
+}
+
+/* ─── Grid ─────────────────────────────────────────────────────────── */
+
+.sd-memorial-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--sd-columns, 3), 1fr);
+    gap: 1.5rem;
+    position: relative;
+    transition: opacity 0.2s;
+}
+
+.sd-memorial-grid.is-loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* ─── Loading overlay ──────────────────────────────────────────────── */
+
+.sd-loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 10;
+    font-size: 0.9rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+}
+
+/* Ensure hidden attribute works even with display:flex */
+.sd-loading-overlay[hidden] {
+    display: none;
+}
+
+.sd-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--wp--preset--color--contrast-3, #e0e0e0);
+    border-top-color: var(--wp--preset--color--primary, #0073aa);
+    border-radius: 50%;
+    animation: sd-spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes sd-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ─── Memorial card ────────────────────────────────────────────────── */
+
+.sd-memorial-card {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sd-memorial-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Card style variants */
+
+.sd-style--elevated .sd-memorial-card {
+    background: var(--wp--preset--color--base, #fff);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.sd-style--flat .sd-memorial-card {
+    background: var(--wp--preset--color--contrast-4, #f8f9fa);
+}
+
+.sd-style--bordered .sd-memorial-card {
+    background: var(--wp--preset--color--base, #fff);
+    border: 1px solid var(--wp--preset--color--contrast-3, #e0e0e0);
+}
+
+/* Card link */
+
+.sd-memorial-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.sd-memorial-link:hover {
+    text-decoration: none;
+}
+
+/* Card image */
+
+.sd-memorial-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--wp--preset--color--contrast-4, #f0f0f0);
+}
+
+.sd-memorial-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+/* Hidden images should not occupy grid space */
+.sd-memorial-image[hidden] {
+    display: none;
+}
+
+.sd-memorial-card:hover .sd-memorial-image img {
+    transform: scale(1.03);
+}
+
+/* Type badge */
+
+.sd-type-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    /* Muted default — person style fallback. */
+    background: var(--sd-badge-person-bg, hsl(0 20% 93%));
+    color: var(--sd-badge-person-color, hsl(0 20% 40%));
+}
+
+.sd-badge-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* Show heart for person, paw for pet — explicitly toggle both */
+.sd-type-badge .sd-icon-paw { display: none; }
+.sd-type-badge .sd-icon-heart { display: block; }
+
+.sd-type-badge.type-person {
+    background: var(--sd-badge-person-bg, hsl(0 20% 93%));
+    color: var(--sd-badge-person-color, hsl(0 20% 40%));
+}
+.sd-type-badge.type-person .sd-icon-paw { display: none; }
+.sd-type-badge.type-person .sd-icon-heart { display: block; }
+
+.sd-type-badge.type-pet {
+    background: var(--sd-badge-pet-bg, hsl(140 18% 91%));
+    color: var(--sd-badge-pet-color, hsl(140 22% 35%));
+}
+.sd-type-badge.type-pet .sd-icon-paw { display: block; }
+.sd-type-badge.type-pet .sd-icon-heart { display: none; }
+
+/* Inline badge variant — used when no image is shown */
+.sd-type-badge--inline {
+    position: static;
+    margin-bottom: 0.5rem;
+}
+
+/* Ensure hidden attribute works on inline-flex badges */
+.sd-type-badge--inline[hidden] {
+    display: none;
+}
+
+/* On-image overlay — needs more contrast for legibility over photos */
+.sd-memorial-image .sd-type-badge {
+    background: hsla(0, 10%, 97%, 0.85);
+    color: hsl(0 20% 38%);
+    backdrop-filter: blur(4px);
+}
+.sd-memorial-image .sd-type-badge.type-pet {
+    color: hsl(140 22% 32%);
+}
+
+/* Card content area */
+
+.sd-memorial-content {
+    padding: 1.25rem;
+}
+
+.sd-memorial-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+    line-height: 1.3;
+}
+
+.sd-memorial-tribute {
+    font-style: italic;
+    font-size: 0.9em;
+    color: var(--wp--preset--color--contrast-2, #555);
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+}
+
+/* Card meta (donor + date) */
+
+.sd-memorial-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    font-size: 0.8em;
+    color: var(--wp--preset--color--contrast-2, #595959);
+    margin: 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--wp--preset--color--contrast-4, #eee);
+}
+
+.sd-memorial-meta time,
+.sd-donor {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.sd-donor {
+    font-weight: 500;
+    color: var(--wp--preset--color--contrast-1, #4a4a4a);
+}
+
+.sd-meta-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    opacity: 0.75;
+}
+
+/* Search highlight */
+
+.sd-search-highlight {
+    background: hsla(45, 100%, 68%, 0.35);
+    color: inherit;
+    padding: 0.05em 0.15em;
+    border-radius: 2px;
+}
+
+/* ─── Empty state ──────────────────────────────────────────────────── */
+
+.sd-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+    background: var(--wp--preset--color--contrast-4, #f8f9fa);
+    border-radius: 8px;
+}
+
+.sd-empty-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    opacity: 0.4;
+}
+
+/* ─── Pagination ───────────────────────────────────────────────────── */
+
+.sd-pagination {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Paged style */
+
+.sd-pagination--paged {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sd-pagination-prev,
+.sd-pagination-next {
+    /* Directional specificity inherits from .sd-pagination-link */
+}
+
+/* Load More style — wrapper */
+
+.sd-pagination--load-more {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sd-pagination-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.sd-pagination-link[aria-disabled="true"] {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.sd-pagination-info {
+    font-size: 0.85rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+    margin: 0.5rem 0 0;
+}
+
+.sd-pagination--paged .sd-pagination-info {
+    margin: 0;
+}
+
+/* Load More style */
+
+.sd-load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--wp--preset--color--primary, #0073aa);
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.sd-load-more:hover:not(:disabled) {
+    background: var(--wp--preset--color--primary-dark, #005a87);
+}
+
+.sd-load-more:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ─── Layout: List (mobile-first) ─────────────────────────────────── */
+
+/* Base (mobile): compact horizontal cards */
+.sd-layout--list .sd-memorial-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+}
+
+.sd-layout--list .sd-memorial-card {
+    border-radius: 6px;
+}
+
+.sd-layout--list .sd-memorial-link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.sd-layout--list .sd-memorial-image {
+    width: 80px;
+    aspect-ratio: 1 / 1;
+    border-radius: 6px 0 0 6px;
+}
+
+.sd-layout--list .sd-memorial-image img {
+    border-radius: 6px 0 0 6px;
+}
+
+/* Hidden images collapse the grid column */
+.sd-layout--list .sd-memorial-image[hidden] {
+    display: none;
+}
+
+.sd-layout--list .sd-memorial-content {
+    padding: 0.625rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0; /* prevent text overflow from breaking grid */
+}
+
+.sd-layout--list .sd-memorial-name {
+    font-size: 1em;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sd-layout--list .sd-memorial-tribute {
+    margin-bottom: 0.35rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.sd-layout--list .sd-memorial-meta {
+    padding-top: 0.35rem;
+    font-size: 0.75em;
+    gap: 0.15rem 0.5rem;
+}
+
+/* Badge sits in content area in list view for cleaner horizontal layout */
+.sd-layout--list .sd-type-badge {
+    position: static;
+    display: inline-flex;
+    align-self: flex-start;
+    margin-bottom: 0.25rem;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.45rem;
+}
+
+/* Tablet: more breathing room */
+@media (min-width: 601px) {
+    .sd-layout--list .sd-memorial-grid {
+        gap: 0.625rem;
+    }
+
+    .sd-layout--list .sd-memorial-image {
+        width: 120px;
+    }
+
+    .sd-layout--list .sd-memorial-content {
+        padding: 0.75rem 1rem;
+    }
+
+    .sd-layout--list .sd-memorial-name {
+        white-space: normal;
+        overflow: visible;
+    }
+
+    .sd-layout--list .sd-memorial-tribute {
+        -webkit-line-clamp: 2;
+    }
+}
+
+/* Desktop: generous layout */
+@media (min-width: 901px) {
+    .sd-layout--list .sd-memorial-grid {
+        gap: 0.75rem;
+    }
+
+    .sd-layout--list .sd-memorial-image {
+        width: 160px;
+        aspect-ratio: 4 / 3;
+    }
+
+    .sd-layout--list .sd-memorial-image img {
+        border-radius: 6px 0 0 6px;
+    }
+
+    .sd-layout--list .sd-memorial-content {
+        padding: 1rem 1.25rem;
+    }
+
+    .sd-layout--list .sd-memorial-name {
+        font-size: 1.1em;
+        margin-bottom: 0.35rem;
+    }
+
+    .sd-layout--list .sd-memorial-tribute {
+        -webkit-line-clamp: 3;
+        margin-bottom: 0.5rem;
+    }
+
+    .sd-layout--list .sd-memorial-meta {
+        font-size: 0.8em;
+    }
+}
+
+/* ─── No-JS fallback pagination ────────────────────────────────────── */
+
+.sd-noscript-pagination {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.sd-noscript-pagination .page-numbers {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    margin: 0 0.15rem;
+    border: 1px solid var(--wp--preset--color--contrast-3, #ccc);
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.sd-noscript-pagination .page-numbers.current {
+    background: var(--wp--preset--color--primary, #0073aa);
+    color: #fff;
+    border-color: var(--wp--preset--color--primary, #0073aa);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+
+/* Tablet landscape / small desktop */
+@media (max-width: 900px) {
+    .sd-memorial-wall {
+        --sd-columns: 2;
+    }
+
+    .sd-memorial-grid {
+        gap: 1rem;
+    }
+}
+
+/* Tablet portrait */
+@media (max-width: 700px) {
+    .sd-memorial-controls {
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .sd-filters {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .sd-filter-select {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+}
+
+/* Phone landscape / large phone portrait */
+@media (max-width: 600px) {
+    .sd-memorial-wall {
+        --sd-columns: 1;
+    }
+
+    .sd-memorial-grid {
+        gap: 0.75rem;
+    }
+
+    /* Stack controls vertically with tighter spacing */
+    .sd-memorial-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .sd-search-box {
+        flex: none;
+        width: 100%;
+    }
+
+    .sd-filters {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .sd-filter-select {
+        flex: 1 1 calc(50% - 0.25rem);
+        padding: 0.6rem 1.5rem 0.6rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .sd-clear-filters {
+        width: 100%;
+        text-align: center;
+    }
+
+    .sd-search-input {
+        padding: 0.65rem 3rem 0.65rem 0.75rem;
+        font-size: 1rem; /* 16px prevents iOS auto-zoom on focus */
+    }
+
+    /* Compact horizontal cards at single column */
+    .sd-layout--grid .sd-memorial-link {
+        display: grid;
+        grid-template-columns: auto 1fr;
+    }
+
+    .sd-layout--grid .sd-memorial-image {
+        width: 120px;
+        aspect-ratio: 1 / 1;
+    }
+
+    .sd-memorial-content {
+        padding: 0.75rem;
+    }
+
+    .sd-memorial-meta {
+        gap: 0.2rem 0.5rem;
+        padding-top: 0.5rem;
+    }
+
+    /* Pagination — larger touch targets, reduced spacing */
+    .sd-pagination {
+        margin-top: 1.25rem;
+    }
+
+    .sd-pagination--paged {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .sd-pagination-link {
+        padding: 0.75rem 1.5rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .sd-pagination-info {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    .sd-load-more {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+    }
+
+    .sd-pagination--load-more .sd-pagination-info {
+        font-size: 0.8rem;
+    }
+
+    .sd-memorial-count {
+        margin-bottom: 0.5rem;
+    }
+
+    /* No hover effects on touch devices */
+    .sd-memorial-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .sd-style--elevated .sd-memorial-card:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .sd-memorial-card:hover .sd-memorial-image img {
+        transform: none;
+    }
+}
+
+/* Small phone — tightest layout */
+@media (max-width: 400px) {
+    .sd-layout--grid .sd-memorial-link {
+        grid-template-columns: auto 1fr;
+    }
+
+    .sd-layout--grid .sd-memorial-image {
+        width: 100px;
+        aspect-ratio: 1 / 1;
+    }
+
+    .sd-memorial-content {
+        padding: 0.625rem;
+    }
+
+    .sd-memorial-name {
+        font-size: 1em;
+    }
+
+    .sd-filter-select {
+        flex: 1 1 100%;
+    }
+
+    .sd-empty-state {
+        padding: 2rem 1rem;
+    }
+}
+
+/* Touch device: prefer active state over hover */
+@media (hover: none) {
+    .sd-memorial-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .sd-style--elevated .sd-memorial-card:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .sd-memorial-card:hover .sd-memorial-image img {
+        transform: none;
+    }
+
+    .sd-memorial-card:active {
+        opacity: 0.85;
+        transition: opacity 0.1s;
+    }
+}

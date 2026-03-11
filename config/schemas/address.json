@@ -1,0 +1,38 @@
+{
+  "$id": "address",
+  "type": "object",
+  "description": "Standard address schema for donors and notifications",
+  "properties": {
+    "address_1": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Street address line 1"
+    },
+    "address_2": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Street address line 2"
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "City name"
+    },
+    "state": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "State or province"
+    },
+    "postcode": {
+      "type": "string",
+      "maxLength": 20,
+      "description": "ZIP or postal code"
+    },
+    "country": {
+      "type": "string",
+      "maxLength": 2,
+      "default": "US",
+      "description": "Two-letter country code"
+    }
+  }
+}

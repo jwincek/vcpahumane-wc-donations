@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/donor-stats",
+    "version": "1.0.0",
+    "title": "Donor Statistics",
+    "category": "starter-shelter",
+    "icon": "chart-bar",
+    "description": "Display donation statistics with real-time updates. Uses core blocks with block bindings.",
+    "keywords": [ "stats", "statistics", "donations", "counter", "total" ],
+    "textdomain": "starter-shelter",
+    "supports": {
+        "html": false,
+        "align": [ "wide", "full" ],
+        "color": {
+            "background": true,
+            "text": true,
+            "gradients": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true,
+            "blockGap": true
+        },
+        "interactivity": true,
+        "__experimentalLayout": {
+            "allowSwitching": true,
+            "allowInheriting": true,
+            "default": {
+                "type": "flex",
+                "flexWrap": "wrap",
+                "justifyContent": "center"
+            }
+        }
+    },
+    "attributes": {
+        "period": {
+            "type": "string",
+            "default": "all_time",
+            "enum": [ "this_month", "this_year", "fiscal_year", "all_time" ]
+        },
+        "showTotal": {
+            "type": "boolean",
+            "default": true
+        },
+        "showCount": {
+            "type": "boolean",
+            "default": true
+        },
+        "showDonors": {
+            "type": "boolean",
+            "default": true
+        },
+        "showMembers": {
+            "type": "boolean",
+            "default": false
+        },
+        "animateNumbers": {
+            "type": "boolean",
+            "default": true
+        },
+        "refreshInterval": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "example": {
+        "attributes": {
+            "showTotal": true,
+            "showCount": true,
+            "showDonors": true,
+            "animateNumbers": true
+        },
+        "viewportWidth": 800
+    },
+    "viewScriptModule": "file:./view.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

@@ -1,0 +1,321 @@
+/**
+ * Donor Dashboard Block Styles
+ *
+ * @package Starter_Shelter
+ * @since 1.0.0
+ */
+
+.sd-donor-dashboard {
+    background: var(--wp--preset--color--base, #fff);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+/* Logged out / No profile states */
+.sd-donor-dashboard.sd-logged-out,
+.sd-donor-dashboard.sd-no-profile {
+    text-align: center;
+    padding: 3rem;
+    background: var(--wp--preset--color--contrast-4, #f8f9fa);
+}
+
+.sd-login-prompt h3,
+.sd-welcome-prompt h3 {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+}
+
+.sd-login-prompt p,
+.sd-welcome-prompt p {
+    color: var(--wp--preset--color--contrast-2, #666);
+    margin-bottom: 1.5rem;
+}
+
+.sd-login-button,
+.sd-donate-button {
+    background: var(--wp--preset--color--primary, #0073aa);
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Dashboard Header */
+.sd-dashboard-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--wp--preset--color--contrast-3, #e0e0e0);
+}
+
+.sd-welcome-message {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+.sd-donor-level {
+    margin: 0;
+    color: var(--wp--preset--color--contrast-2, #666);
+}
+
+.sd-level-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 0.5rem;
+}
+
+.sd-level-new { background: #e3e3e3; color: #555; }
+.sd-level-bronze { background: #cd7f32; color: #fff; }
+.sd-level-silver { background: #c0c0c0; color: #333; }
+.sd-level-gold { background: #ffd700; color: #333; }
+.sd-level-platinum { background: #e5e4e2; color: #333; }
+
+/* Stats Grid */
+.sd-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.sd-stat-card {
+    background: var(--wp--preset--color--contrast-4, #f8f9fa);
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.sd-stat-value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--wp--preset--color--primary, #0073aa);
+}
+
+.sd-stat-label {
+    font-size: 0.85rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+    margin-top: 0.25rem;
+}
+
+/* Section Titles */
+.sd-section-title {
+    font-size: 1.1rem;
+    margin: 0 0 1rem;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+/* Membership Section */
+.sd-membership-section {
+    margin-bottom: 2rem;
+}
+
+.sd-membership-card {
+    background: var(--wp--preset--color--contrast-4, #f8f9fa);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.sd-membership-card.sd-active {
+    border-left: 4px solid var(--wp--preset--color--primary, #28a745);
+}
+
+.sd-membership-card.sd-inactive {
+    text-align: center;
+    background: var(--wp--preset--color--contrast-4, #f5f5f5);
+}
+
+.sd-membership-badge {
+    margin-bottom: 1rem;
+}
+
+.sd-tier-name {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+.sd-membership-type {
+    font-size: 0.85rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+}
+
+.sd-membership-dates {
+    font-size: 0.9rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+    margin: 0 0 0.75rem;
+}
+
+.sd-benefits-toggle {
+    margin-top: 1rem;
+}
+
+.sd-benefits-toggle summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--wp--preset--color--primary, #0073aa);
+}
+
+.sd-benefits-list {
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+}
+
+.sd-benefits-list li {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.sd-renewal-notice {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fff3cd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.sd-renewal-notice p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #856404;
+}
+
+.sd-renew-button {
+    background: #856404;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.sd-join-button {
+    margin-top: 1rem;
+}
+
+/* Recent Gifts */
+.sd-recent-gifts-section {
+    margin-bottom: 2rem;
+}
+
+.sd-gifts-list {
+    background: var(--wp--preset--color--base, #fff);
+    border: 1px solid var(--wp--preset--color--contrast-3, #e0e0e0);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sd-gift-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--wp--preset--color--contrast-3, #e9ecef);
+}
+
+.sd-gift-item:last-child {
+    border-bottom: none;
+}
+
+.sd-gift-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sd-gift-date {
+    font-weight: 500;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+.sd-gift-allocation {
+    font-size: 0.85rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+}
+
+.sd-gift-amount {
+    font-weight: 600;
+    color: var(--wp--preset--color--primary, #28a745);
+}
+
+.sd-view-all {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.sd-view-all a {
+    color: var(--wp--preset--color--primary, #0073aa);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sd-view-all a:hover {
+    text-decoration: underline;
+}
+
+/* Quick Actions */
+.sd-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--wp--preset--color--contrast-3, #e0e0e0);
+}
+
+.sd-action-button {
+    flex: 1;
+    min-width: 150px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.sd-action-button:hover {
+    transform: translateY(-1px);
+}
+
+.sd-action-button.sd-primary {
+    background: var(--wp--preset--color--primary, #28a745);
+    color: #fff;
+}
+
+.sd-action-button.sd-secondary {
+    background: var(--wp--preset--color--contrast-4, #f8f9fa);
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+    border: 1px solid var(--wp--preset--color--contrast-3, #e0e0e0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sd-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sd-renewal-notice {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .sd-quick-actions {
+        flex-direction: column;
+    }
+
+    .sd-action-button {
+        min-width: auto;
+    }
+}

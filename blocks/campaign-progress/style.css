@@ -1,0 +1,233 @@
+/**
+ * Campaign Progress Block Styles
+ *
+ * @package Starter_Shelter
+ * @since 1.0.0
+ */
+
+.sd-campaign-progress {
+    background: var(--wp--preset--color--base, #fff);
+    border: 1px solid var(--wp--preset--color--contrast-2, #e0e0e0);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.sd-campaign-header {
+    margin-bottom: 1.25rem;
+}
+
+.sd-campaign-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+.sd-campaign-description {
+    font-size: 0.9rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+    margin: 0;
+}
+
+/* Stats row */
+.sd-campaign-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.sd-campaign-stats .sd-raised,
+.sd-campaign-stats .sd-goal {
+    text-align: center;
+}
+
+.sd-campaign-stats .sd-raised {
+    text-align: left;
+}
+
+.sd-campaign-stats .sd-goal {
+    text-align: right;
+}
+
+.sd-campaign-stats .sd-amount {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+.sd-campaign-stats .sd-raised .sd-amount {
+    color: var(--wp--preset--color--primary, #28a745);
+}
+
+.sd-campaign-stats .sd-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--wp--preset--color--contrast-2, #666);
+}
+
+/* Progress bar */
+.sd-progress-bar-container {
+    background: var(--wp--preset--color--contrast-3, #e9ecef);
+    border-radius: 9999px;
+    height: 1.25rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.sd-progress-bar {
+    height: 100%;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    min-width: 2rem;
+    transition: width 0.6s ease;
+}
+
+.sd-progress-text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Meta row */
+.sd-campaign-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--wp--preset--color--contrast-3, #e9ecef);
+    border-bottom: 1px solid var(--wp--preset--color--contrast-3, #e9ecef);
+    margin-bottom: 1rem;
+}
+
+.sd-meta-item {
+    text-align: center;
+    flex: 1;
+}
+
+.sd-meta-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--wp--preset--color--contrast, #1e1e1e);
+}
+
+.sd-meta-label {
+    font-size: 0.75rem;
+    color: var(--wp--preset--color--contrast-2, #666);
+}
+
+.sd-meta-label.sd-ended {
+    color: var(--wp--preset--color--vivid-red, #cf2e2e);
+    font-weight: 500;
+}
+
+/* Donate button */
+.sd-campaign-action {
+    text-align: center;
+}
+
+.sd-donate-button {
+    display: inline-block;
+    background: var(--wp--preset--color--primary, #28a745);
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.sd-donate-button:hover {
+    background: var(--wp--preset--color--primary-dark, #218838);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.sd-donate-button:active {
+    transform: translateY(0);
+}
+
+/* Layout variations */
+.sd-layout-compact {
+    padding: 1rem;
+}
+
+.sd-layout-compact .sd-campaign-name {
+    font-size: 1rem;
+}
+
+.sd-layout-compact .sd-campaign-description {
+    display: none;
+}
+
+.sd-layout-compact .sd-campaign-stats .sd-amount {
+    font-size: 1.25rem;
+}
+
+.sd-layout-compact .sd-progress-bar-container {
+    height: 0.75rem;
+}
+
+.sd-layout-compact .sd-progress-text {
+    display: none;
+}
+
+.sd-layout-compact .sd-campaign-meta {
+    display: none;
+}
+
+.sd-layout-detailed .sd-campaign-stats {
+    background: var(--wp--preset--color--contrast-4, #f8f9fa);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.25rem;
+}
+
+.sd-layout-detailed .sd-meta-item {
+    padding: 0.5rem;
+    background: var(--wp--preset--color--base, #fff);
+    border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .sd-campaign-meta {
+        flex-wrap: wrap;
+    }
+
+    .sd-meta-item {
+        flex-basis: calc(50% - 0.5rem);
+    }
+}
+
+/* Loading state */
+.sd-campaign-progress[data-wp-loading="true"] {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.sd-campaign-progress[data-wp-loading="true"]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    border: 3px solid var(--wp--preset--color--contrast-3, #e9ecef);
+    border-top-color: var(--wp--preset--color--primary, #28a745);
+    border-radius: 50%;
+    animation: sd-spinner 0.8s linear infinite;
+}
+
+@keyframes sd-spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}

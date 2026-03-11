@@ -1,0 +1,350 @@
+{
+    "entities": {
+        "sd_donation": {
+            "meta_prefix": "_sd_",
+            "fields": {
+                "donor_id": {
+                    "type": "integer",
+                    "description": "ID of the associated donor"
+                },
+                "amount": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Donation amount"
+                },
+                "allocation": {
+                    "type": "string",
+                    "enum": [
+                        "general-fund",
+                        "spay-neuter-clinic"
+                    ],
+                    "default": "general-fund",
+                    "description": "Fund allocation"
+                },
+                "is_anonymous": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether donation is anonymous"
+                },
+                "dedication": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "description": "Optional dedication message"
+                },
+                "donation_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date of donation"
+                },
+                "wc_order_id": {
+                    "type": "integer",
+                    "description": "Associated WooCommerce order ID"
+                }
+            },
+            "computed": {
+                "amount_formatted": {
+                    "function": "format_currency",
+                    "args": [
+                        "amount"
+                    ]
+                },
+                "date_formatted": {
+                    "function": "format_date",
+                    "args": [
+                        "donation_date"
+                    ]
+                },
+                "allocation_label": {
+                    "function": "get_allocation_label",
+                    "args": [
+                        "allocation"
+                    ]
+                },
+                "donor_name": {
+                    "function": "get_donor_display_name",
+                    "args": [
+                        "donor_id",
+                        "is_anonymous"
+                    ]
+                }
+            },
+            "relations": {
+                "donor": {
+                    "type": "sd_donor",
+                    "foreign_key": "donor_id"
+                },
+                "campaign": {
+                    "type": "taxonomy",
+                    "taxonomy": "sd_campaign"
+                }
+            }
+        },
+        "sd_membership": {
+            "meta_prefix": "_sd_",
+            "fields": {
+                "donor_id": {
+                    "type": "integer",
+                    "description": "ID of the associated donor"
+                },
+                "tier": {
+                    "type": "string",
+                    "description": "Membership tier slug"
+                },
+                "membership_type": {
+                    "type": "string",
+                    "enum": [
+                        "individual",
+                        "family",
+                        "business"
+                    ],
+                    "default": "individual",
+                    "description": "Type of membership"
+                },
+                "amount": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Membership amount"
+                },
+                "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Membership start date"
+                },
+                "end_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Membership expiration date"
+                },
+                "wc_order_id": {
+                    "type": "integer",
+                    "description": "Associated WooCommerce order ID"
+                },
+                "auto_renew": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether membership auto-renews"
+                }
+            },
+            "computed": {
+                "tier_label": {
+                    "function": "get_tier_label",
+                    "args": [
+                        "tier"
+                    ]
+                },
+                "is_active": {
+                    "function": "is_membership_active",
+                    "args": [
+                        "end_date"
+                    ]
+                },
+                "is_expiring_soon": {
+                    "function": "is_membership_expiring_soon",
+                    "args": [
+                        "end_date"
+                    ]
+                },
+                "days_remaining": {
+                    "function": "get_days_until",
+                    "args": [
+                        "end_date"
+                    ]
+                },
+                "amount_formatted": {
+                    "function": "format_currency",
+                    "args": [
+                        "amount"
+                    ]
+                }
+            },
+            "relations": {
+                "donor": {
+                    "type": "sd_donor",
+                    "foreign_key": "donor_id"
+                }
+            }
+        },
+        "sd_memorial": {
+            "meta_prefix": "_sd_",
+            "fields": {
+                "donor_id": {
+                    "type": "integer",
+                    "description": "ID of the donor who created the memorial"
+                },
+                "donor_display_name": {
+                    "type": "string",
+                    "description": "Denormalized donor name for search (empty if anonymous)"
+                },
+                "honoree_name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "description": "Name of person or pet being honored"
+                },
+                "memorial_type": {
+                    "type": "string",
+                    "enum": [
+                        "person",
+                        "pet"
+                    ],
+                    "description": "Type of memorial"
+                },
+                "pet_species": {
+                    "type": "string",
+                    "description": "Species if memorial is for a pet"
+                },
+                "tribute_message": {
+                    "type": "string",
+                    "maxLength": 2000,
+                    "description": "Tribute message for the memorial"
+                },
+                "amount": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Donation amount"
+                },
+                "is_anonymous": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether donation is anonymous"
+                },
+                "donation_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date of memorial donation"
+                },
+                "wc_order_id": {
+                    "type": "integer",
+                    "description": "Associated WooCommerce order ID"
+                },
+                "notify_family": {
+                    "type": "object",
+                    "description": "Family notification settings"
+                },
+                "photo_id": {
+                    "type": "integer",
+                    "description": "Attachment ID for memorial photo"
+                }
+            },
+            "computed": {
+                "amount_formatted": {
+                    "function": "format_currency",
+                    "args": [
+                        "amount"
+                    ]
+                },
+                "date_formatted": {
+                    "function": "format_date",
+                    "args": [
+                        "donation_date"
+                    ]
+                },
+                "photo_url": {
+                    "function": "get_attachment_url",
+                    "args": [
+                        "photo_id",
+                        "medium"
+                    ]
+                },
+                "donor_name": {
+                    "function": "get_memorial_donor_name",
+                    "args": [
+                        "is_anonymous",
+                        "donor_display_name",
+                        "donor_id"
+                    ]
+                },
+                "memorial_type_label": {
+                    "function": "get_memorial_type_label",
+                    "args": [
+                        "memorial_type"
+                    ]
+                }
+            },
+            "relations": {
+                "donor": {
+                    "type": "sd_donor",
+                    "foreign_key": "donor_id"
+                }
+            }
+        },
+        "sd_donor": {
+            "meta_prefix": "_sd_",
+            "fields": {
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Donor email address"
+                },
+                "display_name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "description": "Donor display name"
+                },
+                "first_name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "description": "Donor first name"
+                },
+                "last_name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "description": "Donor last name"
+                },
+                "phone": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "description": "Donor phone number"
+                },
+                "address": {
+                    "type": "object",
+                    "description": "Donor mailing address"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "description": "Associated WordPress user ID"
+                },
+                "lifetime_giving": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Total lifetime donations"
+                },
+                "first_donation_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date of first donation"
+                },
+                "communication_preferences": {
+                    "type": "object",
+                    "description": "Email and communication preferences"
+                }
+            },
+            "computed": {
+                "full_name": {
+                    "function": "concat_names",
+                    "args": [
+                        "first_name",
+                        "last_name"
+                    ]
+                },
+                "lifetime_giving_formatted": {
+                    "function": "format_currency",
+                    "args": [
+                        "lifetime_giving"
+                    ]
+                },
+                "donor_level": {
+                    "function": "calculate_donor_level",
+                    "args": [
+                        "lifetime_giving"
+                    ]
+                },
+                "formatted_address": {
+                    "function": "format_address",
+                    "args": [
+                        "address"
+                    ]
+                }
+            }
+        }
+    }
+}

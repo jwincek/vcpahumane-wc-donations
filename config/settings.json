@@ -1,0 +1,69 @@
+{
+  "allocations": {
+    "general-fund": "General Fund",
+    "medical-care": "Medical Care",
+    "food-supplies": "Food & Supplies",
+    "facility": "Facility Improvements",
+    "rescue-operations": "Rescue Operations",
+    "emergency-fund": "Emergency Fund",
+    "spay-neuter": "Spay/Neuter Program"
+  },
+  "memorial_types": {
+    "pet": "In Memory of a Pet",
+    "human": "In Memory of a Person",
+    "honor": "In Honor Of"
+  },
+  "pet_species": {
+    "dog": "Dog",
+    "cat": "Cat",
+    "bird": "Bird",
+    "horse": "Horse",
+    "rabbit": "Rabbit",
+    "other": "Other Pet"
+  },
+  "donor_levels": {
+    "thresholds": {
+      "bronze": 100,
+      "silver": 500,
+      "gold": 1000,
+      "platinum": 5000
+    },
+    "labels": {
+      "new": "New Donor",
+      "bronze": "Bronze Level",
+      "silver": "Silver Level",
+      "gold": "Gold Level",
+      "platinum": "Platinum Level"
+    }
+  },
+  "fiscal_year": {
+    "start_month": 7,
+    "start_day": 1
+  },
+  "currency": {
+    "code": "USD",
+    "symbol": "$",
+    "position": "before",
+    "decimals": 2
+  },
+  "organization": {
+    "name": "Animal Shelter",
+    "ein": "XX-XXXXXXX",
+    "address": "",
+    "phone": "",
+    "email": ""
+  },
+  "features": {
+    "anonymous_donations": true,
+    "dedications": true,
+    "memorial_family_notifications": true,
+    "membership_renewals": true,
+    "donor_portal": true,
+    "annual_statements": true
+  },
+  "defaults": {
+    "donation_allocation": "general-fund",
+    "membership_type": "individual",
+    "memorial_type": "pet"
+  }
+}

@@ -1,0 +1,113 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/donation-form",
+    "version": "2.0.0",
+    "title": "Donation Form",
+    "category": "starter-shelter",
+    "icon": "money-alt",
+    "description": "Interactive donation form with preset amounts, allocation selection, and WooCommerce checkout integration.",
+    "keywords": ["donate", "giving", "form", "payment", "contribution", "charity"],
+    "textdomain": "starter-shelter",
+    "supports": {
+        "html": false,
+        "align": ["wide"],
+        "color": {
+            "background": true,
+            "text": true,
+            "gradients": true,
+            "link": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true,
+            "blockGap": true
+        },
+        "typography": {
+            "fontSize": true,
+            "lineHeight": true
+        },
+        "interactivity": {
+            "clientNavigation": true
+        },
+        "__experimentalBorder": {
+            "radius": true,
+            "width": true,
+            "color": true,
+            "style": true
+        }
+    },
+    "usesContext": ["postId", "postType"],
+    "providesContext": {
+        "starter-shelter/formId": "formId",
+        "starter-shelter/campaignId": "campaignId"
+    },
+    "attributes": {
+        "formId": {
+            "type": "string",
+            "default": ""
+        },
+        "presetAmounts": {
+            "type": "array",
+            "default": [25, 50, 100, 250, 500]
+        },
+        "defaultAmount": {
+            "type": "number",
+            "default": 50
+        },
+        "showAllocation": {
+            "type": "boolean",
+            "default": true
+        },
+        "showAnonymous": {
+            "type": "boolean",
+            "default": true
+        },
+        "campaignId": {
+            "type": "number"
+        },
+        "title": {
+            "type": "string",
+            "default": "Make a Donation"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "Your gift helps animals in need."
+        },
+        "submitButtonText": {
+            "type": "string",
+            "default": "Continue to Checkout"
+        },
+        "showSecureBadge": {
+            "type": "boolean",
+            "default": true
+        },
+        "minAmount": {
+            "type": "number",
+            "default": 1
+        },
+        "maxAmount": {
+            "type": "number",
+            "default": 100000
+        }
+    },
+    "example": {
+        "attributes": {
+            "presetAmounts": [25, 50, 100, 250],
+            "defaultAmount": 50,
+            "showAllocation": true,
+            "title": "Make a Donation",
+            "subtitle": "Every gift makes a difference."
+        }
+    },
+    "selectors": {
+        "root": ".sd-donation-form",
+        "button": ".sd-submit-button",
+        "amountButton": ".sd-amount-button",
+        "input": ".sd-text-input, .sd-custom-input, .sd-select"
+    },
+    "viewScriptModule": "file:./view.js",
+    "editorScript": "file:./edit.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

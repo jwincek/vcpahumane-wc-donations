@@ -1,0 +1,94 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/campaign-progress",
+    "version": "2.0.0",
+    "title": "Campaign Progress",
+    "category": "starter-shelter",
+    "icon": "chart-line",
+    "description": "Display fundraising campaign progress with real-time updates.",
+    "keywords": ["campaign", "progress", "fundraising", "goal", "thermometer", "donation"],
+    "textdomain": "starter-shelter",
+    "supports": {
+        "html": false,
+        "align": ["wide"],
+        "color": {
+            "background": true,
+            "text": true,
+            "gradients": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        },
+        "typography": {
+            "fontSize": true
+        },
+        "interactivity": {
+            "clientNavigation": true
+        },
+        "__experimentalBorder": {
+            "radius": true,
+            "width": true,
+            "color": true
+        }
+    },
+    "attributes": {
+        "campaignId": {
+            "type": "number"
+        },
+        "showTitle": {
+            "type": "boolean",
+            "default": true
+        },
+        "showDescription": {
+            "type": "boolean",
+            "default": false
+        },
+        "showDonorCount": {
+            "type": "boolean",
+            "default": true
+        },
+        "showEndDate": {
+            "type": "boolean",
+            "default": true
+        },
+        "showPercentage": {
+            "type": "boolean",
+            "default": true
+        },
+        "progressBarHeight": {
+            "type": "number",
+            "default": 24
+        },
+        "progressBarColor": {
+            "type": "string",
+            "default": "#059669"
+        },
+        "layout": {
+            "type": "string",
+            "default": "horizontal",
+            "enum": ["horizontal", "vertical", "compact"]
+        },
+        "refreshInterval": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "example": {
+        "attributes": {
+            "showTitle": true,
+            "showDonorCount": true,
+            "layout": "horizontal"
+        }
+    },
+    "selectors": {
+        "root": ".sd-campaign-progress",
+        "progressBar": ".sd-progress-bar",
+        "progressFill": ".sd-progress-fill"
+    },
+    "viewScriptModule": "file:./view.js",
+    "editorScript": "file:./edit.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

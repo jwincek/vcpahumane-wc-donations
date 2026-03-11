@@ -1,0 +1,173 @@
+{
+  "tiers": {
+    "individual": {
+      "single": {
+        "slug": "single",
+        "label": "Single Membership",
+        "amount": 10,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates"
+        ]
+      },
+      "family": {
+        "slug": "family",
+        "label": "Family Membership",
+        "amount": 25,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates",
+          "Family recognition"
+        ]
+      },
+      "contributing": {
+        "slug": "contributing",
+        "label": "Contributing Membership",
+        "amount": 50,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates",
+          "Recognition in annual report"
+        ]
+      },
+      "supporting": {
+        "slug": "supporting",
+        "label": "Supporting Membership",
+        "amount": 100,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates",
+          "Recognition in annual report",
+          "Exclusive supporter updates"
+        ]
+      },
+      "donor": {
+        "slug": "donor",
+        "label": "Donor Membership",
+        "amount": 250,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates",
+          "Recognition in annual report",
+          "Exclusive supporter updates",
+          "Donor wall recognition"
+        ]
+      },
+      "sustaining": {
+        "slug": "sustaining",
+        "label": "Sustaining Membership",
+        "amount": 500,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates",
+          "Recognition in annual report",
+          "Exclusive supporter updates",
+          "Donor wall recognition",
+          "Behind-the-scenes tour"
+        ]
+      },
+      "patron": {
+        "slug": "patron",
+        "label": "Patron Membership",
+        "amount": 750,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates",
+          "Recognition in annual report",
+          "Exclusive supporter updates",
+          "Donor wall recognition",
+          "Behind-the-scenes tour",
+          "Special event invitations"
+        ]
+      },
+      "benefactor": {
+        "slug": "benefactor",
+        "label": "Benefactor Membership",
+        "amount": 1000,
+        "benefits": [
+          "Newsletter subscription",
+          "Shelter updates",
+          "Recognition in annual report",
+          "Exclusive supporter updates",
+          "Donor wall recognition",
+          "Behind-the-scenes tour",
+          "Special event invitations",
+          "Naming opportunity"
+        ]
+      }
+    },
+    "business": {
+      "contributing": {
+        "slug": "contributing",
+        "label": "Contributing Business Membership",
+        "amount": 50,
+        "benefits": [
+          "Business listing on website",
+          "Newsletter recognition"
+        ]
+      },
+      "supporting": {
+        "slug": "supporting",
+        "label": "Supporting Business Membership",
+        "amount": 100,
+        "benefits": [
+          "Business listing on website",
+          "Newsletter recognition",
+          "Social media shoutout"
+        ]
+      },
+      "donor": {
+        "slug": "donor",
+        "label": "Donor Business Membership",
+        "amount": 250,
+        "benefits": [
+          "Business listing on website",
+          "Newsletter recognition",
+          "Social media shoutout",
+          "Logo in annual report"
+        ]
+      },
+      "sustaining": {
+        "slug": "sustaining",
+        "label": "Sustaining Business Membership",
+        "amount": 500,
+        "benefits": [
+          "Business listing on website",
+          "Newsletter recognition",
+          "Social media shoutout",
+          "Logo in annual report",
+          "Event sponsorship opportunities"
+        ]
+      },
+      "patron": {
+        "slug": "patron",
+        "label": "Patron Business Membership",
+        "amount": 750,
+        "benefits": [
+          "Business listing on website",
+          "Newsletter recognition",
+          "Social media shoutout",
+          "Logo in annual report",
+          "Event sponsorship opportunities",
+          "Featured business spotlight"
+        ]
+      },
+      "benefactor": {
+        "slug": "benefactor",
+        "label": "Benefactor Business Membership",
+        "amount": 1000,
+        "benefits": [
+          "Business listing on website",
+          "Newsletter recognition",
+          "Social media shoutout",
+          "Logo in annual report",
+          "Event sponsorship opportunities",
+          "Featured business spotlight",
+          "Naming opportunity"
+        ]
+      }
+    }
+  },
+  "duration_days": 365,
+  "expiring_soon_days": 30
+}

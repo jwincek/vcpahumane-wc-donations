@@ -1,0 +1,95 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/memorial-form",
+    "version": "2.0.0",
+    "title": "Memorial Tribute Form",
+    "category": "starter-shelter",
+    "icon": "heart",
+    "description": "Dedicated form for In Memory Of and In Honor Of tribute gifts with honoree details and family notification.",
+    "keywords": ["memorial", "tribute", "honor", "memory", "dedication", "gift"],
+    "textdomain": "starter-shelter",
+    "supports": {
+        "html": false,
+        "align": ["wide"],
+        "color": {
+            "background": true,
+            "text": true,
+            "gradients": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        },
+        "interactivity": {
+            "clientNavigation": true
+        }
+    },
+    "attributes": {
+        "formId": {
+            "type": "string",
+            "default": ""
+        },
+        "presetAmounts": {
+            "type": "array",
+            "default": [25, 50, 100, 250]
+        },
+        "defaultAmount": {
+            "type": "number",
+            "default": 50
+        },
+        "defaultDedicationType": {
+            "type": "string",
+            "default": "memory",
+            "enum": ["memory", "honor"]
+        },
+        "defaultHonoreeType": {
+            "type": "string",
+            "default": "person",
+            "enum": ["person", "pet"]
+        },
+        "showAnonymous": {
+            "type": "boolean",
+            "default": true
+        },
+        "showFamilyNotification": {
+            "type": "boolean",
+            "default": true
+        },
+        "showSendCard": {
+            "type": "boolean",
+            "default": true
+        },
+        "title": {
+            "type": "string",
+            "default": "Give in Memory or Honor"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "Honor a loved one with a meaningful tribute gift."
+        },
+        "submitButtonText": {
+            "type": "string",
+            "default": "Add Memorial Gift to Cart"
+        },
+        "minAmount": {
+            "type": "number",
+            "default": 10
+        },
+        "maxAmount": {
+            "type": "number",
+            "default": 100000
+        }
+    },
+    "example": {
+        "attributes": {
+            "presetAmounts": [25, 50, 100, 250],
+            "defaultAmount": 50,
+            "title": "Give in Memory or Honor"
+        }
+    },
+    "viewScriptModule": "file:./view.js",
+    "editorScript": "file:./edit.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

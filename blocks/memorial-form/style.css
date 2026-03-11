@@ -1,0 +1,140 @@
+/**
+ * Memorial Form Block Styles
+ *
+ * Extends shared form styles with memorial-specific styling.
+ *
+ * @package Starter_Shelter
+ * @since 2.0.0
+ */
+
+.sd-memorial-form {
+    --sd-memorial-color: #8b5a5a;
+    --sd-memorial-color-light: #f5ebe9;
+}
+
+/* Dedication Type Toggle */
+.sd-toggle-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.sd-toggle-button {
+    flex: 1;
+    min-width: 140px;
+}
+
+.sd-toggle-button .sd-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sd-toggle-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--wp--preset--color--contrast-2, #ddd);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.sd-toggle-button .sd-radio:checked + .sd-toggle-content {
+    border-color: var(--sd-memorial-color);
+    background: var(--sd-memorial-color-light);
+    color: var(--sd-memorial-color);
+}
+
+.sd-toggle-button .sd-radio:focus-visible + .sd-toggle-content {
+    outline: 2px solid var(--sd-memorial-color);
+    outline-offset: 2px;
+}
+
+/* Honoree Cards */
+.sd-honoree-cards {
+    display: flex;
+    gap: 1rem;
+}
+
+.sd-honoree-card {
+    flex: 1;
+}
+
+.sd-honoree-card .sd-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sd-card-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    border: 2px solid var(--wp--preset--color--contrast-2, #ddd);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.sd-honoree-card .sd-radio:checked + .sd-card-inner {
+    border-color: var(--sd-memorial-color);
+    background: var(--sd-memorial-color-light);
+}
+
+.sd-card-inner svg {
+    color: var(--wp--preset--color--contrast-3, #666);
+    transition: color 0.2s ease;
+}
+
+.sd-honoree-card .sd-radio:checked + .sd-card-inner svg {
+    color: var(--sd-memorial-color);
+}
+
+/* Honoree Name Input */
+.sd-honoree-input {
+    font-size: 1.125rem;
+    padding: 0.875rem 1rem;
+}
+
+/* Memorial Summary */
+.sd-memorial-summary {
+    background: var(--sd-memorial-color-light);
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.sd-summary-dedication {
+    font-weight: 600;
+    color: var(--sd-memorial-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Family Fields */
+.sd-family-fields {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--wp--preset--color--base-2, #f9f9f9);
+    border-radius: 8px;
+}
+
+.sd-field-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* Character Count */
+.sd-char-count {
+    text-align: right;
+    font-size: 0.8125rem;
+    color: var(--wp--preset--color--contrast-3, #666);
+    margin-top: 0.25rem;
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<ruleset name="Starter Shelter">
+	<description>PHPCS ruleset for Starter Shelter Donations plugin.</description>
+
+	<!-- Scan these files -->
+	<file>starter-shelter.php</file>
+	<file>includes/</file>
+
+	<!-- Exclude third-party code -->
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+
+	<!-- Use WordPress coding standards -->
+	<rule ref="WordPress">
+		<!-- Allow short array syntax -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+		<!-- Allow PSR-4 filenames alongside WP class- prefix convention -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+	</rule>
+
+	<!-- Check PHP 8.1+ compatibility -->
+	<rule ref="PHPCompatibilityWP"/>
+	<config name="testVersion" value="8.1-"/>
+
+	<!-- WordPress version -->
+	<config name="minimum_wp_version" value="6.9"/>
+
+	<!-- Text domain -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="starter-shelter"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Prefixes -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="starter_shelter"/>
+				<element value="Starter_Shelter"/>
+				<element value="STARTER_SHELTER"/>
+				<element value="sd_"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Show progress and use colors -->
+	<arg value="ps"/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+</ruleset>

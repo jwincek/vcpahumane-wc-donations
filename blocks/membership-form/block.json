@@ -1,0 +1,87 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/membership-form",
+    "version": "2.0.0",
+    "title": "Membership Form",
+    "category": "starter-shelter",
+    "icon": "groups",
+    "description": "Membership signup form with tier selection. Supports both individual and business memberships.",
+    "keywords": ["membership", "subscribe", "join", "tier", "sponsor"],
+    "textdomain": "starter-shelter",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "color": {
+            "background": true,
+            "text": true,
+            "gradients": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        },
+        "interactivity": {
+            "clientNavigation": true
+        }
+    },
+    "attributes": {
+        "formId": {
+            "type": "string",
+            "default": ""
+        },
+        "membershipType": {
+            "type": "string",
+            "default": "individual",
+            "enum": ["individual", "business"]
+        },
+        "showTypeToggle": {
+            "type": "boolean",
+            "default": false
+        },
+        "defaultTier": {
+            "type": "string",
+            "default": ""
+        },
+        "layout": {
+            "type": "string",
+            "default": "cards",
+            "enum": ["cards", "table", "list"]
+        },
+        "columns": {
+            "type": "number",
+            "default": 3
+        },
+        "showBenefits": {
+            "type": "boolean",
+            "default": true
+        },
+        "showAnonymous": {
+            "type": "boolean",
+            "default": false
+        },
+        "title": {
+            "type": "string",
+            "default": "Become a Member"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "Join our community of animal advocates."
+        },
+        "submitButtonText": {
+            "type": "string",
+            "default": "Join Now"
+        }
+    },
+    "example": {
+        "attributes": {
+            "membershipType": "individual",
+            "layout": "cards",
+            "title": "Become a Member"
+        }
+    },
+    "viewScriptModule": "file:./view.js",
+    "editorScript": "file:./edit.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

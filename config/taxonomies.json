@@ -1,0 +1,51 @@
+{
+  "taxonomies": {
+    "sd_campaign": {
+      "labels": {
+        "singular": "Campaign",
+        "plural": "Campaigns",
+        "menu_name": "Campaigns"
+      },
+      "post_types": ["sd_donation"],
+      "public": true,
+      "show_ui": true,
+      "show_in_rest": true,
+      "hierarchical": true,
+      "rewrite": {
+        "slug": "campaigns",
+        "with_front": false
+      }
+    },
+
+    "sd_memorial_year": {
+      "labels": {
+        "singular": "Year",
+        "plural": "Years",
+        "menu_name": "Memorial Years"
+      },
+      "post_types": ["sd_memorial"],
+      "public": true,
+      "show_ui": true,
+      "show_in_rest": true,
+      "hierarchical": false,
+      "rewrite": {
+        "slug": "memorial-year",
+        "with_front": false
+      }
+    },
+
+    "sd_donation_allocation": {
+      "labels": {
+        "singular": "Allocation",
+        "plural": "Allocations",
+        "menu_name": "Fund Allocations"
+      },
+      "post_types": ["sd_donation"],
+      "public": false,
+      "show_ui": true,
+      "show_in_rest": true,
+      "hierarchical": false,
+      "rewrite": false
+    }
+  }
+}

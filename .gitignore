@@ -1,0 +1,30 @@
+# === OS Files ===
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# === IDE / Editor ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# === Dependencies ===
+/vendor/
+/node_modules/
+
+# === Build artifacts ===
+*.map
+
+# === WordPress environment ===
+.wp-env.override.json
+
+# === Logs & debug ===
+*.log
+debug.log
+error_log
+
+# === Distribution packaging ===
+/dist/
+*.zip

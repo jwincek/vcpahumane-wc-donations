@@ -1,0 +1,861 @@
+{
+  "entity_types": {
+    "donations": {
+      "post_type": "sd_donation",
+      "label": "Donations",
+      "icon": "💰",
+      "export": {
+        "filename_prefix": "shelter-donations",
+        "orderby": "date",
+        "order": "DESC",
+        "columns": [
+          {
+            "header": "ID",
+            "source": "post_id"
+          },
+          {
+            "header": "Date",
+            "field": "donation_date",
+            "fallback": "post_date"
+          },
+          {
+            "header": "Donor Name",
+            "relation": "donor",
+            "computed": "full_name"
+          },
+          {
+            "header": "Donor Email",
+            "relation": "donor",
+            "field": "email"
+          },
+          {
+            "header": "Amount",
+            "field": "amount"
+          },
+          {
+            "header": "Allocation",
+            "field": "allocation"
+          },
+          {
+            "header": "Campaign",
+            "source": "taxonomy",
+            "taxonomy": "sd_campaign"
+          },
+          {
+            "header": "Is Anonymous",
+            "field": "is_anonymous",
+            "format": "yes_no"
+          },
+          {
+            "header": "Dedication",
+            "field": "dedication"
+          },
+          {
+            "header": "Order ID",
+            "field": "wc_order_id"
+          }
+        ],
+        "filters": {
+          "date_range": {
+            "type": "select",
+            "options": [
+              {
+                "value": "all",
+                "label": "All Time"
+              },
+              {
+                "value": "this_year",
+                "label": "This Year"
+              },
+              {
+                "value": "last_year",
+                "label": "Last Year"
+              },
+              {
+                "value": "this_month",
+                "label": "This Month"
+              }
+            ]
+          }
+        }
+      },
+      "import": {
+        "required": [
+          "email",
+          "amount",
+          "date"
+        ],
+        "optional": [
+          "first_name",
+          "last_name",
+          "allocation",
+          "is_anonymous",
+          "dedication"
+        ],
+        "field_map": {
+          "email": {
+            "target": "donor_email",
+            "validate": "email"
+          },
+          "amount": {
+            "target": "amount",
+            "validate": "positive_number"
+          },
+          "date": {
+            "target": "donation_date",
+            "validate": "date"
+          },
+          "first_name": {
+            "target": "first_name",
+            "validate": "text"
+          },
+          "last_name": {
+            "target": "last_name",
+            "validate": "text"
+          },
+          "allocation": {
+            "target": "allocation",
+            "validate": "enum",
+            "enum_ref": "sd_donation.allocation",
+            "description": "Must be \"general-fund\" or \"spay-neuter-clinic\""
+          },
+          "is_anonymous": {
+            "target": "is_anonymous",
+            "validate": "boolean_string"
+          },
+          "dedication": {
+            "target": "dedication",
+            "validate": "text"
+          }
+        },
+        "ability": "shelter-donations/create",
+        "donor_handling": "find_or_create_by_email",
+        "options": [
+          {
+            "key": "create_donors",
+            "label": "Create donors if not found",
+            "default": true
+          },
+          {
+            "key": "skip_errors",
+            "label": "Skip rows with errors",
+            "default": true
+          },
+          {
+            "key": "skip_duplicates",
+            "label": "Skip duplicate rows (matched by import hash)",
+            "default": true
+          }
+        ],
+        "template": {
+          "filename": "donation-import-template.csv",
+          "examples": [
+            [
+              "john@example.com",
+              "100.00",
+              "2024-01-15",
+              "John",
+              "Doe",
+              "general-fund",
+              "no",
+              "In memory of Fluffy"
+            ],
+            [
+              "jane@example.com",
+              "250.00",
+              "2024-02-20",
+              "Jane",
+              "Smith",
+              "spay-neuter-clinic",
+              "yes",
+              ""
+            ],
+            [
+              "bob@example.com",
+              "50.00",
+              "2024-03-10",
+              "Bob",
+              "Jones",
+              "general-fund",
+              "no",
+              "For the animals"
+            ]
+          ]
+        },
+        "hash_columns": [
+          "email",
+          "amount",
+          "date",
+          "allocation"
+        ]
+      }
+    },
+    "memberships": {
+      "post_type": "sd_membership",
+      "label": "Memberships",
+      "icon": "🏅",
+      "export": {
+        "filename_prefix": "shelter-memberships",
+        "orderby": "date",
+        "order": "DESC",
+        "columns": [
+          {
+            "header": "ID",
+            "source": "post_id"
+          },
+          {
+            "header": "Member Name",
+            "relation": "donor",
+            "computed": "full_name"
+          },
+          {
+            "header": "Email",
+            "relation": "donor",
+            "field": "email"
+          },
+          {
+            "header": "Type",
+            "field": "membership_type"
+          },
+          {
+            "header": "Tier",
+            "field": "tier"
+          },
+          {
+            "header": "Amount",
+            "field": "amount"
+          },
+          {
+            "header": "Start Date",
+            "field": "start_date"
+          },
+          {
+            "header": "End Date",
+            "field": "end_date"
+          },
+          {
+            "header": "Status",
+            "computed": "active_status"
+          },
+          {
+            "header": "Business Name",
+            "field": "business_name"
+          },
+          {
+            "header": "Order ID",
+            "field": "wc_order_id"
+          }
+        ],
+        "filters": {
+          "status": {
+            "type": "select",
+            "meta_filter": {
+              "active": {
+                "key": "_sd_end_date",
+                "compare": ">=",
+                "value": "today"
+              },
+              "expired": {
+                "key": "_sd_end_date",
+                "compare": "<",
+                "value": "today"
+              }
+            },
+            "options": [
+              {
+                "value": "all",
+                "label": "All",
+                "count_key": "memberships"
+              },
+              {
+                "value": "active",
+                "label": "Active",
+                "count_key": "memberships_active"
+              },
+              {
+                "value": "expired",
+                "label": "Expired",
+                "count_key": "memberships_expired"
+              }
+            ]
+          }
+        }
+      },
+      "import": {
+        "required": [
+          "email",
+          "membership_type",
+          "tier",
+          "amount",
+          "start_date",
+          "end_date"
+        ],
+        "optional": [
+          "first_name",
+          "last_name",
+          "business_name",
+          "business_website",
+          "business_description"
+        ],
+        "field_map": {
+          "email": {
+            "target": "donor_email",
+            "validate": "email"
+          },
+          "membership_type": {
+            "target": "membership_type",
+            "validate": "enum",
+            "enum_ref": "sd_membership.membership_type",
+            "enum_values": [
+              "individual",
+              "business"
+            ],
+            "description": "Must be \"individual\" or \"business\""
+          },
+          "tier": {
+            "target": "tier",
+            "validate": "text",
+            "description": "Tier slug: single, family, contributing, supporting, donor, sustaining, patron, benefactor"
+          },
+          "amount": {
+            "target": "amount",
+            "validate": "positive_number"
+          },
+          "start_date": {
+            "target": "start_date",
+            "validate": "date"
+          },
+          "end_date": {
+            "target": "end_date",
+            "validate": "date"
+          },
+          "first_name": {
+            "target": "first_name",
+            "validate": "text"
+          },
+          "last_name": {
+            "target": "last_name",
+            "validate": "text"
+          },
+          "business_name": {
+            "target": "business_name",
+            "validate": "text",
+            "required_when": {
+              "field": "membership_type",
+              "equals": "business"
+            }
+          },
+          "business_website": {
+            "target": "business_website",
+            "validate": "url"
+          },
+          "business_description": {
+            "target": "business_description",
+            "validate": "text"
+          }
+        },
+        "ability": "shelter-memberships/create",
+        "donor_handling": "find_or_create_by_email",
+        "options": [
+          {
+            "key": "create_donors",
+            "label": "Create donors if not found",
+            "default": true
+          },
+          {
+            "key": "skip_errors",
+            "label": "Skip rows with errors",
+            "default": true
+          },
+          {
+            "key": "skip_duplicates",
+            "label": "Skip duplicate rows (matched by import hash)",
+            "default": true
+          }
+        ],
+        "template": {
+          "filename": "membership-import-template.csv",
+          "examples": [
+            [
+              "john@example.com",
+              "individual",
+              "single",
+              "10.00",
+              "2024-01-01",
+              "2025-01-01",
+              "John",
+              "Doe",
+              "",
+              "",
+              ""
+            ],
+            [
+              "jane@example.com",
+              "individual",
+              "contributing",
+              "50.00",
+              "2024-02-15",
+              "2025-02-15",
+              "Jane",
+              "Smith",
+              "",
+              "",
+              ""
+            ],
+            [
+              "contact@acme.com",
+              "business",
+              "supporting",
+              "100.00",
+              "2024-03-01",
+              "2025-03-01",
+              "Bob",
+              "Wilson",
+              "Acme Pet Supplies",
+              "https://acme-pets.com",
+              "Local pet supply store"
+            ]
+          ]
+        },
+        "hash_columns": [
+          "email",
+          "membership_type",
+          "tier",
+          "amount",
+          "start_date"
+        ]
+      }
+    },
+    "memorials": {
+      "post_type": "sd_memorial",
+      "label": "Memorials",
+      "icon": "❤️",
+      "export": {
+        "filename_prefix": "shelter-memorials",
+        "orderby": "date",
+        "order": "DESC",
+        "columns": [
+          {
+            "header": "ID",
+            "source": "post_id"
+          },
+          {
+            "header": "Date",
+            "field": "donation_date",
+            "fallback": "post_date"
+          },
+          {
+            "header": "Honoree Name",
+            "field": "honoree_name"
+          },
+          {
+            "header": "Type",
+            "field": "memorial_type"
+          },
+          {
+            "header": "Pet Species",
+            "field": "pet_species"
+          },
+          {
+            "header": "Tribute Message",
+            "field": "tribute_message"
+          },
+          {
+            "header": "Donor Name",
+            "meta": "_sd_donor_display_name"
+          },
+          {
+            "header": "Donor Email",
+            "relation": "donor",
+            "field": "email"
+          },
+          {
+            "header": "Amount",
+            "field": "amount"
+          },
+          {
+            "header": "Is Anonymous",
+            "field": "is_anonymous",
+            "format": "yes_no"
+          },
+          {
+            "header": "Family Notified",
+            "meta": "_sd_family_notified_date",
+            "format": "yes_no_truthy"
+          },
+          {
+            "header": "Address Line 1",
+            "relation": "donor",
+            "field": "address",
+            "subfield": "address_1",
+            "meta_fallback_prefix": "_sd_"
+          },
+          {
+            "header": "Address Line 2",
+            "relation": "donor",
+            "field": "address",
+            "subfield": "address_2",
+            "meta_fallback_prefix": "_sd_"
+          },
+          {
+            "header": "City",
+            "relation": "donor",
+            "field": "address",
+            "subfield": "city",
+            "meta_fallback_prefix": "_sd_"
+          },
+          {
+            "header": "State",
+            "relation": "donor",
+            "field": "address",
+            "subfield": "state",
+            "meta_fallback_prefix": "_sd_"
+          },
+          {
+            "header": "Postal Code",
+            "relation": "donor",
+            "field": "address",
+            "subfield": "postcode",
+            "meta_fallback_prefix": "_sd_"
+          }
+        ],
+        "filters": {}
+      },
+      "import": {
+        "required": [
+          "email",
+          "honoree_name",
+          "amount",
+          "date"
+        ],
+        "optional": [
+          "first_name",
+          "last_name",
+          "memorial_type",
+          "tribute_message",
+          "pet_species",
+          "is_anonymous",
+          "notify_family_email"
+        ],
+        "field_map": {
+          "email": {
+            "target": "donor_email",
+            "validate": "email"
+          },
+          "honoree_name": {
+            "target": "honoree_name",
+            "validate": "text"
+          },
+          "amount": {
+            "target": "amount",
+            "validate": "positive_number"
+          },
+          "date": {
+            "target": "donation_date",
+            "validate": "date"
+          },
+          "first_name": {
+            "target": "first_name",
+            "validate": "text"
+          },
+          "last_name": {
+            "target": "last_name",
+            "validate": "text"
+          },
+          "memorial_type": {
+            "target": "memorial_type",
+            "validate": "enum",
+            "enum_values": [
+              "person",
+              "pet"
+            ],
+            "description": "Must be \"person\" or \"pet\""
+          },
+          "tribute_message": {
+            "target": "tribute_message",
+            "validate": "text"
+          },
+          "pet_species": {
+            "target": "pet_species",
+            "validate": "text"
+          },
+          "is_anonymous": {
+            "target": "is_anonymous",
+            "validate": "boolean_string"
+          },
+          "notify_family_email": {
+            "target": "notify_family_email",
+            "validate": "email_optional"
+          }
+        },
+        "ability": "shelter-memorials/create",
+        "donor_handling": "find_or_create_by_email",
+        "options": [
+          {
+            "key": "create_donors",
+            "label": "Create donors if not found",
+            "default": true
+          },
+          {
+            "key": "skip_errors",
+            "label": "Skip rows with errors",
+            "default": true
+          },
+          {
+            "key": "skip_duplicates",
+            "label": "Skip duplicate rows (matched by import hash)",
+            "default": true
+          }
+        ],
+        "template": {
+          "filename": "memorial-import-template.csv",
+          "examples": [
+            [
+              "john@example.com",
+              "Mary Smith",
+              "100.00",
+              "2024-01-15",
+              "John",
+              "Doe",
+              "person",
+              "In loving memory of a wonderful friend",
+              "",
+              "no",
+              "family@example.com"
+            ],
+            [
+              "jane@example.com",
+              "Fluffy",
+              "50.00",
+              "2024-02-10",
+              "Jane",
+              "Smith",
+              "pet",
+              "Best cat ever",
+              "cat",
+              "no",
+              ""
+            ],
+            [
+              "bob@example.com",
+              "Rex",
+              "75.00",
+              "2024-03-05",
+              "Bob",
+              "Jones",
+              "pet",
+              "The best dog a family could ask for",
+              "dog",
+              "yes",
+              ""
+            ]
+          ]
+        },
+        "hash_columns": [
+          "email",
+          "honoree_name",
+          "amount",
+          "date"
+        ]
+      }
+    },
+    "donors": {
+      "post_type": "sd_donor",
+      "label": "Donors",
+      "icon": "👥",
+      "export": {
+        "filename_prefix": "shelter-donors",
+        "orderby": "title",
+        "order": "ASC",
+        "columns": [
+          {
+            "header": "ID",
+            "source": "post_id"
+          },
+          {
+            "header": "Display Name",
+            "field": "display_name"
+          },
+          {
+            "header": "First Name",
+            "field": "first_name"
+          },
+          {
+            "header": "Last Name",
+            "field": "last_name"
+          },
+          {
+            "header": "Email",
+            "field": "email"
+          },
+          {
+            "header": "Phone",
+            "field": "phone"
+          },
+          {
+            "header": "Address Line 1",
+            "field": "address",
+            "subfield": "address_1",
+            "meta_fallback": "_sd_address_line_1"
+          },
+          {
+            "header": "Address Line 2",
+            "field": "address",
+            "subfield": "address_2",
+            "meta_fallback": "_sd_address_line_2"
+          },
+          {
+            "header": "City",
+            "field": "address",
+            "subfield": "city",
+            "meta_fallback": "_sd_city"
+          },
+          {
+            "header": "State",
+            "field": "address",
+            "subfield": "state",
+            "meta_fallback": "_sd_state"
+          },
+          {
+            "header": "Postal Code",
+            "field": "address",
+            "subfield": "postcode",
+            "meta_fallback": "_sd_postal_code"
+          },
+          {
+            "header": "Country",
+            "field": "address",
+            "subfield": "country",
+            "meta_fallback": "_sd_country"
+          }
+        ],
+        "optional_column_groups": {
+          "include_stats": {
+            "label": "Include giving statistics",
+            "default": true,
+            "columns": [
+              {
+                "header": "Lifetime Giving",
+                "field": "lifetime_giving"
+              },
+              {
+                "header": "Donation Count",
+                "meta": "_sd_donation_count"
+              },
+              {
+                "header": "Donor Level",
+                "computed": "donor_level"
+              },
+              {
+                "header": "First Donation",
+                "field": "first_donation_date"
+              },
+              {
+                "header": "Last Donation",
+                "meta": "_sd_last_donation_date"
+              }
+            ]
+          }
+        },
+        "filters": {}
+      },
+      "import": {
+        "required": [
+          "email",
+          "first_name",
+          "last_name"
+        ],
+        "optional": [
+          "phone",
+          "address_line_1",
+          "address_line_2",
+          "city",
+          "state",
+          "postal_code",
+          "country"
+        ],
+        "field_map": {
+          "email": {
+            "target": "email",
+            "validate": "email"
+          },
+          "first_name": {
+            "target": "first_name",
+            "validate": "text"
+          },
+          "last_name": {
+            "target": "last_name",
+            "validate": "text"
+          },
+          "phone": {
+            "target": "phone",
+            "validate": "text"
+          },
+          "address_line_1": {
+            "target": "address_line_1",
+            "validate": "text"
+          },
+          "address_line_2": {
+            "target": "address_line_2",
+            "validate": "text"
+          },
+          "city": {
+            "target": "city",
+            "validate": "text"
+          },
+          "state": {
+            "target": "state",
+            "validate": "text"
+          },
+          "postal_code": {
+            "target": "postal_code",
+            "validate": "text"
+          },
+          "country": {
+            "target": "country",
+            "validate": "text"
+          }
+        },
+        "ability": null,
+        "handler": "upsert_donor",
+        "donor_handling": "self",
+        "options": [
+          {
+            "key": "update_existing",
+            "label": "Update existing donors (matched by email)",
+            "default": true
+          },
+          {
+            "key": "skip_errors",
+            "label": "Skip rows with errors",
+            "default": true
+          }
+        ],
+        "template": {
+          "filename": "donor-import-template.csv",
+          "examples": [
+            [
+              "john@example.com",
+              "John",
+              "Doe",
+              "555-123-4567",
+              "123 Main St",
+              "Apt 4",
+              "Springfield",
+              "IL",
+              "62701",
+              "US"
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "legacy_memorial": {
+    "description": "Configuration for the shelter's legacy memorial CSV format (month headers, 3-column layout)",
+    "enabled": true,
+    "default_amount": 0,
+    "import_source": "legacy_memorial_csv",
+    "donor_handling": "find_or_create_by_name"
+  }
+}

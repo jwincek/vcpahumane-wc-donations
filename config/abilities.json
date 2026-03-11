@@ -1,0 +1,873 @@
+{
+  "abilities": {
+    "shelter-donations/create": {
+      "label": "Create Donation",
+      "description": "Creates a new donation record from a WooCommerce order or direct input",
+      "category": "shelter-donations",
+      "permission": "internal",
+      "meta": {
+        "annotations": {
+          "readonly": false,
+          "destructive": false,
+          "idempotent": false
+        },
+        "show_in_rest": false
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["amount"],
+        "oneOf": [
+          { "required": ["donor_id"] },
+          { "required": ["donor_email"] }
+        ],
+        "properties": {
+          "donor_id": {
+            "type": "integer",
+            "description": "Pre-resolved donor post ID. If provided, donor_email lookup is skipped."
+          },
+          "donor_email": {
+            "type": "string",
+            "format": "email",
+            "description": "Donor's email address"
+          },
+          "donor_name": {
+            "type": "string",
+            "description": "Donor's full name"
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0.01,
+            "description": "Donation amount"
+          },
+          "order_id": {
+            "type": "integer",
+            "description": "WooCommerce order ID"
+          },
+          "allocation": {
+            "type": "string",
+            "enum": ["general-fund", "spay-neuter-clinic"],
+            "default": "general-fund",
+            "description": "Fund allocation"
+          },
+          "is_anonymous": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether donation is anonymous"
+          },
+          "dedication": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Optional dedication message"
+          },
+          "campaign_id": {
+            "type": "integer",
+            "description": "Campaign term ID"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["donation_id", "donor_id", "status"],
+        "properties": {
+          "donation_id": {
+            "type": "integer",
+            "description": "Created donation post ID"
+          },
+          "donor_id": {
+            "type": "integer",
+            "description": "Donor post ID"
+          },
+          "status": {
+            "type": "string",
+            "description": "Operation status"
+          }
+        }
+      }
+    },
+
+    "shelter-donations/get": {
+      "label": "Get Donation",
+      "description": "Retrieves a single donation by ID",
+      "category": "shelter-donations",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["donation_id"],
+        "properties": {
+          "donation_id": {
+            "type": "integer",
+            "description": "Donation post ID"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "description": "Hydrated donation entity"
+      }
+    },
+
+    "shelter-donations/list": {
+      "label": "List Donations",
+      "description": "Retrieves a paginated list of donations with filters",
+      "category": "shelter-donations",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "donor_id": {
+            "type": "integer",
+            "description": "Filter by donor"
+          },
+          "allocation": {
+            "type": "string",
+            "description": "Filter by allocation"
+          },
+          "campaign_id": {
+            "type": "integer",
+            "description": "Filter by campaign"
+          },
+          "date_from": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date filter"
+          },
+          "date_to": {
+            "type": "string",
+            "format": "date",
+            "description": "End date filter"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1
+          },
+          "per_page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": { "type": "object" }
+          },
+          "total": { "type": "integer" },
+          "total_pages": { "type": "integer" },
+          "page": { "type": "integer" }
+        }
+      }
+    },
+
+    "shelter-donations/get-stats": {
+      "label": "Get Donation Statistics",
+      "description": "Retrieves aggregated donation statistics for a period",
+      "category": "shelter-donations",
+      "permission": "admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string",
+            "enum": ["fiscal_year", "calendar_year", "month", "quarter", "all_time"],
+            "default": "fiscal_year"
+          },
+          "fiscal_year": {
+            "type": "integer",
+            "description": "Specific fiscal year"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "total_amount": { "type": "number" },
+          "total_formatted": { "type": "string" },
+          "donation_count": { "type": "integer" },
+          "donor_count": { "type": "integer" },
+          "average_amount": { "type": "number" }
+        }
+      }
+    },
+
+    "shelter-memberships/create": {
+      "label": "Create Membership",
+      "description": "Creates a new membership record",
+      "category": "shelter-memberships",
+      "permission": "internal",
+      "meta": {
+        "annotations": {
+          "readonly": false,
+          "destructive": false,
+          "idempotent": false
+        },
+        "show_in_rest": false
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["tier", "amount"],
+        "oneOf": [
+          { "required": ["donor_id"] },
+          { "required": ["donor_email"] }
+        ],
+        "properties": {
+          "donor_id": {
+            "type": "integer",
+            "description": "Pre-resolved donor post ID. If provided, donor_email lookup is skipped."
+          },
+          "donor_email": {
+            "type": "string",
+            "format": "email"
+          },
+          "donor_name": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "description": "Membership tier slug"
+          },
+          "membership_type": {
+            "type": "string",
+            "enum": ["individual", "family", "business"],
+            "default": "individual"
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0
+          },
+          "order_id": {
+            "type": "integer"
+          },
+          "business_name": {
+            "type": "string",
+            "description": "Business name for business memberships"
+          },
+          "is_anonymous": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "membership_id": { "type": "integer" },
+          "donor_id": { "type": "integer" },
+          "start_date": { "type": "string" },
+          "end_date": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+
+    "shelter-memberships/renew": {
+      "label": "Renew Membership",
+      "description": "Renews an existing membership",
+      "category": "shelter-memberships",
+      "permission": "internal",
+      "meta": {
+        "annotations": {
+          "readonly": false,
+          "destructive": false,
+          "idempotent": false
+        },
+        "show_in_rest": false
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["membership_id", "amount", "order_id"],
+        "properties": {
+          "membership_id": { "type": "integer" },
+          "amount": { "type": "number" },
+          "order_id": { "type": "integer" }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "membership_id": { "type": "integer" },
+          "new_end_date": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+
+    "shelter-memberships/get-status": {
+      "label": "Get Membership Status",
+      "description": "Retrieves current membership status for a donor",
+      "category": "shelter-memberships",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["donor_id"],
+        "properties": {
+          "donor_id": { "type": "integer" }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "is_active": { "type": "boolean" },
+          "tier": { "type": "string" },
+          "tier_label": { "type": "string" },
+          "end_date": { "type": "string" },
+          "is_expiring_soon": { "type": "boolean" },
+          "days_remaining": { "type": "integer" }
+        }
+      }
+    },
+
+    "shelter-memberships/list": {
+      "label": "List Memberships",
+      "description": "Retrieves a paginated list of memberships",
+      "category": "shelter-memberships",
+      "permission": "admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["active", "expired", "expiring_soon", "all"],
+            "default": "all"
+          },
+          "tier": { "type": "string" },
+          "membership_type": { "type": "string" },
+          "page": { "type": "integer", "default": 1 },
+          "per_page": { "type": "integer", "default": 10 }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "items": { "type": "array" },
+          "total": { "type": "integer" },
+          "total_pages": { "type": "integer" },
+          "page": { "type": "integer" }
+        }
+      }
+    },
+
+    "shelter-memberships/cancel": {
+      "label": "Cancel Membership",
+      "description": "Cancels an active membership",
+      "category": "shelter-memberships",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": false,
+          "destructive": true,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["membership_id"],
+        "properties": {
+          "membership_id": {
+            "type": "integer",
+            "description": "Membership post ID"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Optional cancellation reason"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "membership_id": { "type": "integer" },
+          "status": { "type": "string" },
+          "cancelled_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+
+    "shelter-memorials/create": {
+      "label": "Create Memorial",
+      "description": "Creates a new memorial donation",
+      "category": "shelter-memorials",
+      "permission": "internal",
+      "meta": {
+        "annotations": {
+          "readonly": false,
+          "destructive": false,
+          "idempotent": false
+        },
+        "show_in_rest": false
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["honoree_name", "memorial_type", "amount"],
+        "oneOf": [
+          { "required": ["donor_id"] },
+          { "required": ["donor_email"] }
+        ],
+        "properties": {
+          "donor_id": {
+            "type": "integer",
+            "description": "Pre-resolved donor post ID. If provided, donor_email lookup is skipped."
+          },
+          "donor_email": { "type": "string", "format": "email" },
+          "donor_name": { "type": "string" },
+          "honoree_name": { "type": "string", "maxLength": 200 },
+          "memorial_type": {
+            "type": "string",
+            "enum": ["person", "pet"]
+          },
+          "pet_species": { "type": "string" },
+          "tribute_message": { "type": "string", "maxLength": 2000 },
+          "amount": { "type": "number", "minimum": 0 },
+          "order_id": { "type": "integer" },
+          "is_anonymous": { "type": "boolean", "default": false },
+          "notify_family": {
+            "$ref": "schemas/notify-family.json"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "memorial_id": { "type": "integer" },
+          "donor_id": { "type": "integer" },
+          "permalink": { "type": "string" },
+          "family_notified": { "type": "boolean" }
+        }
+      }
+    },
+
+    "shelter-memorials/list": {
+      "label": "List Memorials",
+      "description": "Retrieves a paginated list of memorials for the public wall",
+      "category": "shelter-memorials",
+      "permission": "public",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["all", "person", "pet"],
+            "default": "all"
+          },
+          "year": { "type": "integer" },
+          "search": { "type": "string" },
+          "donor_id": { "type": "integer" },
+          "page": { "type": "integer", "default": 1 },
+          "per_page": { "type": "integer", "default": 12 }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "items": { "type": "array" },
+          "total": { "type": "integer" },
+          "total_pages": { "type": "integer" },
+          "page": { "type": "integer" }
+        }
+      }
+    },
+
+    "shelter-memorials/get": {
+      "label": "Get Memorial",
+      "description": "Retrieves a single memorial by ID",
+      "category": "shelter-memorials",
+      "permission": "public",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["memorial_id"],
+        "properties": {
+          "memorial_id": {
+            "type": "integer",
+            "description": "Memorial post ID"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "description": "Hydrated memorial entity with donor info"
+      }
+    },
+
+    "shelter-donors/get-profile": {
+      "label": "Get Donor Profile",
+      "description": "Retrieves complete donor profile",
+      "category": "shelter-donors",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["donor_id"],
+        "properties": {
+          "donor_id": { "type": "integer" }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "description": "Hydrated donor entity with computed fields"
+      }
+    },
+
+    "shelter-donors/update-address": {
+      "label": "Update Donor Address",
+      "description": "Updates donor mailing address",
+      "category": "shelter-donors",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": false,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["donor_id", "address"],
+        "properties": {
+          "donor_id": { "type": "integer" },
+          "address": { "$ref": "schemas/address.json" },
+          "source": {
+            "type": "string",
+            "enum": ["checkout", "myaccount", "order_sync", "admin"],
+            "default": "myaccount"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "donor_id": { "type": "integer" }
+        }
+      }
+    },
+
+    "shelter-donors/get-history": {
+      "label": "Get Donor History",
+      "description": "Retrieves donor's complete giving history",
+      "category": "shelter-donors",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["donor_id"],
+        "properties": {
+          "donor_id": { "type": "integer" },
+          "include_donations": { "type": "boolean", "default": true },
+          "include_memberships": { "type": "boolean", "default": true },
+          "include_memorials": { "type": "boolean", "default": true }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "donations": { "type": "array" },
+          "memberships": { "type": "array" },
+          "memorials": { "type": "array" },
+          "lifetime_giving": { "type": "number" },
+          "current_membership": { "type": "object" }
+        }
+      }
+    },
+
+    "shelter-donors/update-profile": {
+      "label": "Update Donor Profile",
+      "description": "Updates donor profile information (name, phone, preferences)",
+      "category": "shelter-donors",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": false,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["donor_id"],
+        "properties": {
+          "donor_id": {
+            "type": "integer",
+            "description": "Donor post ID"
+          },
+          "first_name": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "last_name": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "email_preferences": {
+            "type": "object",
+            "properties": {
+              "newsletter": { "type": "boolean" },
+              "donation_receipts": { "type": "boolean" },
+              "renewal_reminders": { "type": "boolean" },
+              "event_invitations": { "type": "boolean" }
+            }
+          },
+          "is_anonymous_default": {
+            "type": "boolean",
+            "description": "Default anonymity preference for future donations"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "donor_id": { "type": "integer" },
+          "updated_fields": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "shelter-reports/annual-summary": {
+      "label": "Generate Annual Summary",
+      "description": "Generates annual giving summary for a donor",
+      "category": "shelter-reports",
+      "permission": "owner_or_admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["donor_id", "year"],
+        "properties": {
+          "donor_id": { "type": "integer" },
+          "year": { "type": "integer" }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "donor": { "type": "object" },
+          "year": { "type": "integer" },
+          "total_donations": { "type": "number" },
+          "total_formatted": { "type": "string" },
+          "donation_count": { "type": "integer" },
+          "donations": { "type": "array" },
+          "memberships": { "type": "array" }
+        }
+      }
+    },
+
+    "shelter-reports/dashboard-stats": {
+      "label": "Get Dashboard Statistics",
+      "description": "Retrieves statistics for admin dashboard",
+      "category": "shelter-reports",
+      "permission": "admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string",
+            "enum": ["today", "week", "month", "quarter", "year"],
+            "default": "month"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "donations": {
+            "type": "object",
+            "properties": {
+              "total": { "type": "number" },
+              "count": { "type": "integer" },
+              "change_percent": { "type": "number" }
+            }
+          },
+          "memberships": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "integer" },
+              "new": { "type": "integer" },
+              "expiring_soon": { "type": "integer" }
+            }
+          },
+          "memorials": {
+            "type": "object",
+            "properties": {
+              "total": { "type": "integer" },
+              "new": { "type": "integer" }
+            }
+          },
+          "donors": {
+            "type": "object",
+            "properties": {
+              "total": { "type": "integer" },
+              "new": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+
+    "shelter-reports/campaign-report": {
+      "label": "Generate Campaign Report",
+      "description": "Generates a detailed report for a specific campaign",
+      "category": "shelter-reports",
+      "permission": "admin",
+      "meta": {
+        "annotations": {
+          "readonly": true,
+          "destructive": false,
+          "idempotent": true
+        },
+        "show_in_rest": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["campaign_id"],
+        "properties": {
+          "campaign_id": {
+            "type": "integer",
+            "description": "Campaign term ID"
+          },
+          "include_donations": {
+            "type": "boolean",
+            "default": true,
+            "description": "Include individual donation records"
+          },
+          "include_donors": {
+            "type": "boolean",
+            "default": false,
+            "description": "Include donor breakdown"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "campaign": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" },
+              "goal": { "type": "number" },
+              "start_date": { "type": "string" },
+              "end_date": { "type": "string" }
+            }
+          },
+          "progress": {
+            "type": "object",
+            "properties": {
+              "total_raised": { "type": "number" },
+              "total_formatted": { "type": "string" },
+              "percent_of_goal": { "type": "number" },
+              "donation_count": { "type": "integer" },
+              "donor_count": { "type": "integer" }
+            }
+          },
+          "donations": {
+            "type": "array",
+            "description": "Individual donations if include_donations is true"
+          },
+          "donors": {
+            "type": "array",
+            "description": "Donor breakdown if include_donors is true"
+          }
+        }
+      }
+    }
+  }
+}

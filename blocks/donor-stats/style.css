@@ -1,0 +1,180 @@
+/**
+ * Donor Stats Block Styles
+ *
+ * @package Starter_Shelter
+ * @since 1.0.0
+ */
+
+.sd-donor-stats {
+    --sd-stat-gap: 1.5rem;
+    --sd-stat-padding: 1.5rem;
+    --sd-stat-radius: 12px;
+    --sd-stat-bg: #fff;
+    --sd-stat-border: #e5e7eb;
+    --sd-accent-total: #059669;
+    --sd-accent-count: #3b82f6;
+    --sd-accent-donors: #8b5cf6;
+    --sd-accent-members: #f59e0b;
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sd-stat-gap);
+    justify-content: center;
+}
+
+/* Stat Card */
+.sd-stat-card {
+    flex: 1 1 200px;
+    max-width: 280px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: var(--sd-stat-padding);
+    background: var(--sd-stat-bg);
+    border: 1px solid var(--sd-stat-border);
+    border-radius: var(--sd-stat-radius);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sd-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon */
+.sd-stat-icon {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.1;
+}
+
+.sd-stat-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.sd-stat-card .sd-stat-icon {
+    position: relative;
+}
+
+.sd-stat-card .sd-stat-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0.1;
+}
+
+.sd-stat-card .sd-stat-icon svg {
+    color: inherit;
+    opacity: 1;
+}
+
+/* Color variants */
+.sd-stat-total {
+    color: var(--sd-accent-total);
+}
+
+.sd-stat-count {
+    color: var(--sd-accent-count);
+}
+
+.sd-stat-donors {
+    color: var(--sd-accent-donors);
+}
+
+.sd-stat-members {
+    color: var(--sd-accent-members);
+}
+
+/* Content */
+.sd-stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.sd-stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1f2937;
+    font-variant-numeric: tabular-nums;
+}
+
+.sd-stat-value.is-animating {
+    animation: sd-pulse 0.3s ease-out;
+}
+
+@keyframes sd-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.sd-stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .sd-donor-stats {
+        --sd-stat-bg: #1f2937;
+        --sd-stat-border: #374151;
+    }
+    
+    .sd-stat-value {
+        color: #f9fafb;
+    }
+    
+    .sd-stat-label {
+        color: #9ca3af;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sd-stat-card {
+        flex: 1 1 calc(50% - var(--sd-stat-gap));
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .sd-stat-card {
+        flex: 1 1 100%;
+    }
+    
+    .sd-stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* Alignment variations */
+.sd-donor-stats.alignwide,
+.sd-donor-stats.alignfull {
+    padding-inline: 1rem;
+}
+
+.sd-donor-stats.alignfull .sd-stat-card {
+    flex: 1 1 200px;
+    max-width: none;
+}
+
+/* Vertical layout option (via flex-direction in block supports) */
+.sd-donor-stats[style*="flex-direction: column"] .sd-stat-card {
+    max-width: 100%;
+}

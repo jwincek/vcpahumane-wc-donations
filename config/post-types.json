@@ -1,0 +1,90 @@
+{
+  "post_types": {
+    "sd_donation": {
+      "labels": {
+        "singular": "Donation",
+        "plural": "Donations",
+        "menu_name": "Donations"
+      },
+      "public": false,
+      "show_ui": true,
+      "show_in_menu": "starter-shelter",
+      "show_in_rest": true,
+      "has_archive": false,
+      "rewrite": false,
+      "menu_icon": "dashicons-heart",
+      "supports": ["title"],
+      "capability_type": "post",
+      "capabilities": {
+        "create_posts": "manage_options"
+      },
+      "map_meta_cap": true
+    },
+
+    "sd_membership": {
+      "labels": {
+        "singular": "Membership",
+        "plural": "Memberships",
+        "menu_name": "Memberships"
+      },
+      "public": false,
+      "show_ui": true,
+      "show_in_menu": "starter-shelter",
+      "show_in_rest": true,
+      "has_archive": false,
+      "rewrite": false,
+      "menu_icon": "dashicons-groups",
+      "supports": ["title"],
+      "capability_type": "post",
+      "capabilities": {
+        "create_posts": "manage_options"
+      },
+      "map_meta_cap": true
+    },
+
+    "sd_memorial": {
+      "labels": {
+        "singular": "Memorial",
+        "plural": "Memorials",
+        "menu_name": "Memorials"
+      },
+      "public": true,
+      "show_ui": true,
+      "show_in_menu": "starter-shelter",
+      "show_in_rest": true,
+      "has_archive": true,
+      "rewrite": {
+        "slug": "memorials",
+        "with_front": false
+      },
+      "menu_icon": "dashicons-format-quote",
+      "supports": ["title", "thumbnail", "excerpt", "editor"],
+      "capability_type": "post",
+      "capabilities": {
+        "create_posts": "manage_options"
+      },
+      "map_meta_cap": true
+    },
+
+    "sd_donor": {
+      "labels": {
+        "singular": "Donor",
+        "plural": "Donors",
+        "menu_name": "Donors"
+      },
+      "public": false,
+      "show_ui": true,
+      "show_in_menu": "starter-shelter",
+      "show_in_rest": true,
+      "has_archive": false,
+      "rewrite": false,
+      "menu_icon": "dashicons-businessman",
+      "supports": ["title"],
+      "capability_type": "post",
+      "capabilities": {
+        "create_posts": "manage_options"
+      },
+      "map_meta_cap": true
+    }
+  }
+}

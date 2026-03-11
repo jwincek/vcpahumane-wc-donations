@@ -1,0 +1,80 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/campaign-card",
+    "version": "1.0.0",
+    "title": "Campaign Card",
+    "category": "starter-shelter",
+    "icon": "megaphone",
+    "description": "Display a fundraising campaign with progress bar. Can be used as a standalone block or within Query Loop.",
+    "keywords": [ "campaign", "fundraiser", "goal", "progress", "donation" ],
+    "textdomain": "starter-shelter",
+    "ancestor": [],
+    "usesContext": [ "postId", "postType" ],
+    "supports": {
+        "html": false,
+        "align": [ "left", "center", "right", "wide" ],
+        "color": {
+            "background": true,
+            "text": true,
+            "link": true,
+            "gradients": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        },
+        "typography": {
+            "fontSize": true,
+            "lineHeight": true
+        },
+        "interactivity": true,
+        "__experimentalBorder": {
+            "radius": true,
+            "width": true,
+            "color": true,
+            "style": true
+        }
+    },
+    "attributes": {
+        "campaignId": {
+            "type": "number"
+        },
+        "showGoal": {
+            "type": "boolean",
+            "default": true
+        },
+        "showRaised": {
+            "type": "boolean",
+            "default": true
+        },
+        "showDonors": {
+            "type": "boolean",
+            "default": true
+        },
+        "showEndDate": {
+            "type": "boolean",
+            "default": true
+        },
+        "showDonateButton": {
+            "type": "boolean",
+            "default": true
+        },
+        "progressBarColor": {
+            "type": "string",
+            "default": "#059669"
+        }
+    },
+    "example": {
+        "attributes": {
+            "showGoal": true,
+            "showRaised": true,
+            "showDonors": true,
+            "showDonateButton": true
+        },
+        "viewportWidth": 400
+    },
+    "viewScriptModule": "file:./view.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

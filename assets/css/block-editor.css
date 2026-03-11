@@ -1,0 +1,240 @@
+/**
+ * Block Editor Styles
+ *
+ * Styles for block previews and editor UI.
+ *
+ * @package Starter_Shelter
+ * @since 2.0.0
+ */
+
+/* ==========================================================================
+   Editor Wrapper
+   ========================================================================== */
+
+/* Ensure blocks have minimum height in editor */
+.editor-styles-wrapper [data-type^="starter-shelter/"] {
+    min-height: 100px;
+}
+
+/* Fix ServerSideRender overflow */
+.editor-styles-wrapper [data-type^="starter-shelter/"] .components-server-side-render {
+    overflow: visible;
+}
+
+/* ==========================================================================
+   Placeholder Styles
+   ========================================================================== */
+
+.editor-styles-wrapper .wp-block-starter-shelter-donation-form .components-placeholder,
+.editor-styles-wrapper .wp-block-starter-shelter-memorial-wall .components-placeholder,
+.editor-styles-wrapper .wp-block-starter-shelter-campaign-progress .components-placeholder,
+.editor-styles-wrapper .wp-block-starter-shelter-donor-dashboard .components-placeholder {
+    min-height: 200px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+}
+
+.editor-styles-wrapper .wp-block-starter-shelter-donation-form .components-placeholder__label,
+.editor-styles-wrapper .wp-block-starter-shelter-memorial-wall .components-placeholder__label,
+.editor-styles-wrapper .wp-block-starter-shelter-campaign-progress .components-placeholder__label,
+.editor-styles-wrapper .wp-block-starter-shelter-donor-dashboard .components-placeholder__label {
+    font-weight: 600;
+    color: #059669;
+}
+
+/* ==========================================================================
+   Block Previews
+   ========================================================================== */
+
+/* Disable interactivity in editor */
+.editor-styles-wrapper .sd-donation-form,
+.editor-styles-wrapper .sd-memorial-wall,
+.editor-styles-wrapper .sd-campaign-progress,
+.editor-styles-wrapper .sd-donor-dashboard {
+    pointer-events: none;
+}
+
+/* Re-enable scrolling for previews */
+.editor-styles-wrapper .sd-memorial-grid {
+    max-height: 500px;
+    overflow-y: auto;
+    pointer-events: auto;
+}
+
+/* Show a subtle overlay to indicate preview mode */
+.editor-styles-wrapper [data-type^="starter-shelter/"]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.editor-styles-wrapper [data-type^="starter-shelter/"]:not(.is-selected)::after {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   Loading States
+   ========================================================================== */
+
+.editor-styles-wrapper [data-type^="starter-shelter/"] .components-spinner {
+    margin: 20px auto;
+}
+
+/* ==========================================================================
+   Inspector Panel Enhancements
+   ========================================================================== */
+
+.components-panel__body-title .dashicons-money-alt,
+.components-panel__body-title .dashicons-heart,
+.components-panel__body-title .dashicons-chart-line,
+.components-panel__body-title .dashicons-id-alt {
+    color: #059669;
+    margin-right: 8px;
+}
+
+/* Color picker container */
+.editor-styles-wrapper .components-color-picker {
+    margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   Donation Form Editor Preview
+   ========================================================================== */
+
+.editor-styles-wrapper .sd-donation-form {
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.editor-styles-wrapper .sd-form-header {
+    margin-bottom: 20px;
+}
+
+.editor-styles-wrapper .sd-form-title {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.editor-styles-wrapper .sd-form-subtitle {
+    margin: 0;
+    color: #6b7280;
+}
+
+.editor-styles-wrapper .sd-preset-amounts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.editor-styles-wrapper .sd-amount-button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    background: #f3f4f6;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    cursor: default;
+}
+
+.editor-styles-wrapper .sd-amount-button.selected {
+    background: #ecfdf5;
+    border-color: #059669;
+    color: #059669;
+}
+
+/* ==========================================================================
+   Memorial Wall Editor Preview
+   ========================================================================== */
+
+.editor-styles-wrapper .sd-memorial-wall {
+    padding: 20px;
+}
+
+.editor-styles-wrapper .sd-memorial-filters {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.editor-styles-wrapper .sd-memorial-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns, 3), 1fr);
+    gap: 20px;
+}
+
+.editor-styles-wrapper .sd-memorial-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   Campaign Progress Editor Preview
+   ========================================================================== */
+
+.editor-styles-wrapper .sd-campaign-progress {
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.editor-styles-wrapper .sd-progress-bar {
+    background: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.editor-styles-wrapper .sd-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+}
+
+/* ==========================================================================
+   Donor Dashboard Editor Preview
+   ========================================================================== */
+
+.editor-styles-wrapper .sd-donor-dashboard {
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.editor-styles-wrapper .sd-dashboard-guest {
+    text-align: center;
+    padding: 40px;
+}
+
+.editor-styles-wrapper .sd-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.editor-styles-wrapper .sd-stat-card {
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   Block Category Icon
+   ========================================================================== */
+
+.block-editor-inserter__panel-header [class*="starter-shelter"]::before {
+    content: "❤️";
+    margin-right: 4px;
+}

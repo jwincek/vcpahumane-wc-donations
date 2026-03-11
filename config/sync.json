@@ -1,0 +1,128 @@
+{
+  "legacy_sync": {
+    "description": "Configuration for syncing legacy WooCommerce orders to the shelter donations system",
+    "version": "1.0.0"
+  },
+
+  "product_mappings": {
+    "by_product_id": {
+      "5465": {
+        "maps_to": "shelter-memberships",
+        "type": "membership",
+        "membership_type": "individual",
+        "notes": "Legacy Memberships variable product"
+      },
+      "5466": { "parent": "5465", "tier": "single" },
+      "5467": { "parent": "5465", "tier": "family" },
+      "5468": { "parent": "5465", "tier": "contributing" },
+      "5469": { "parent": "5465", "tier": "supporting" },
+      "5470": { "parent": "5465", "tier": "donor" },
+      "5471": { "parent": "5465", "tier": "sustaining" },
+      "5472": { "parent": "5465", "tier": "patron" },
+      "5473": { "parent": "5465", "tier": "benefactor" },
+      
+      "13177": {
+        "maps_to": "shelter-donations-in-memoriam",
+        "type": "memorial",
+        "notes": "In Memoriam Donations variable product"
+      },
+      "13178": {
+        "maps_to": "shelter-memberships-business",
+        "type": "membership",
+        "membership_type": "business",
+        "notes": "Shelter Business Memberships variable product"
+      },
+      "13179": {
+        "maps_to": "shelter-donations",
+        "type": "donation",
+        "notes": "Shelter Donations variable product"
+      },
+      "13180": { "parent": "13177", "memorial_type": "pet" },
+      "13181": { "parent": "13177", "memorial_type": "person" },
+      "13182": { "parent": "13179", "allocation": "spay-neuter-clinic" },
+      "13183": { "parent": "13179", "allocation": "general-fund" },
+      "13199": {
+        "maps_to": "shelter-memberships",
+        "type": "membership",
+        "membership_type": "individual",
+        "notes": "Shelter Memberships variable product"
+      }
+    },
+
+    "by_name_pattern": [
+      {
+        "pattern": "^Memberships - (\\w+) Membership",
+        "maps_to": "memberships",
+        "type": "membership",
+        "membership_type": "individual",
+        "tier_from_match": 1
+      },
+      {
+        "pattern": "^Shelter Memberships - (\\w+) Membership",
+        "maps_to": "shelter-memberships",
+        "type": "membership",
+        "membership_type": "individual",
+        "tier_from_match": 1
+      },
+      {
+        "pattern": "^Shelter Business Memberships - (\\w+) Membership",
+        "maps_to": "shelter-memberships-business",
+        "type": "membership",
+        "membership_type": "business",
+        "tier_from_match": 1
+      },
+      {
+        "pattern": "^In Memoriam Donations - (Pet|Person)",
+        "maps_to": "shelter-donations-in-memoriam",
+        "type": "memorial",
+        "memorial_type_from_match": 1
+      },
+      {
+        "pattern": "^Shelter Donations - (.+)",
+        "maps_to": "shelter-donations",
+        "type": "donation",
+        "allocation_from_match": 1
+      }
+    ]
+  },
+
+  "tier_normalization": {
+    "single membership - $10": "single",
+    "family membership - $25": "family",
+    "contributing membership - $50": "contributing",
+    "supporting membership - $100": "supporting",
+    "donor membership - $250": "donor",
+    "sustaining membership - $500": "sustaining",
+    "patron membership - $750": "patron",
+    "benefactor membership - $1000": "benefactor",
+    "single": "single",
+    "family": "family",
+    "contributing": "contributing",
+    "supporting": "supporting",
+    "donor": "donor",
+    "sustaining": "sustaining",
+    "patron": "patron",
+    "benefactor": "benefactor"
+  },
+
+  "allocation_normalization": {
+    "general fund": "general-fund",
+    "spay / neuter clinic": "spay-neuter-clinic",
+    "spay/neuter clinic": "spay-neuter-clinic",
+    "general-fund": "general-fund",
+    "spay-neuter-clinic": "spay-neuter-clinic"
+  },
+
+  "memorial_type_normalization": {
+    "pet": "pet",
+    "person": "person",
+    "human": "person"
+  },
+
+  "sync_options": {
+    "create_donors": true,
+    "skip_existing": true,
+    "batch_size": 25,
+    "log_activity": true
+  }
+}

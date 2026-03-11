@@ -1,0 +1,20 @@
+{
+  "$id": "pagination",
+  "type": "object",
+  "description": "Standard pagination parameters for list operations",
+  "properties": {
+    "page": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1,
+      "description": "Page number"
+    },
+    "per_page": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 10,
+      "description": "Items per page"
+    }
+  }
+}

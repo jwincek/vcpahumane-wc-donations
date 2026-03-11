@@ -1,0 +1,69 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "starter-shelter/donor-dashboard",
+    "version": "2.0.0",
+    "title": "Donor Dashboard",
+    "category": "starter-shelter",
+    "icon": "id-alt",
+    "description": "Personal dashboard showing donor's giving history, stats, and membership status.",
+    "keywords": ["donor", "dashboard", "profile", "giving", "history", "member"],
+    "textdomain": "starter-shelter",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        },
+        "interactivity": {
+            "clientNavigation": true
+        }
+    },
+    "attributes": {
+        "showStats": {
+            "type": "boolean",
+            "default": true
+        },
+        "showRecentGifts": {
+            "type": "boolean",
+            "default": true
+        },
+        "showMembership": {
+            "type": "boolean",
+            "default": true
+        },
+        "showDonorLevel": {
+            "type": "boolean",
+            "default": true
+        },
+        "recentGiftsCount": {
+            "type": "number",
+            "default": 5
+        },
+        "layout": {
+            "type": "string",
+            "default": "cards",
+            "enum": ["cards", "list", "compact"]
+        },
+        "guestMessage": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "example": {
+        "attributes": {
+            "showStats": true,
+            "showRecentGifts": true,
+            "showMembership": true
+        }
+    },
+    "viewScriptModule": "file:./view.js",
+    "editorScript": "file:./edit.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}
