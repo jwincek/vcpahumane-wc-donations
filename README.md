@@ -90,4 +90,4 @@ See `modern-wordpress-plugin-development-guide.md` in the project docs for the f
 
 ## License
 
-GPL-2.0-or-later. See [LICENSE](LICENSE) for details.
+GPL-2.0-or-later. See WordPress [license](https://wordpress.org/about/license/) for details.
